@@ -3,6 +3,9 @@ node_modules/
 *.log
 .idea
 
+/backend/.idea
+/frontend/.idea
+
 # Build directories
 /frontend/build/
 /backend/dist/
@@ -10,8 +13,10 @@ node_modules/
 # Environment files
 /frontend/.env
 /backend/.env
-/backend/.idea
-/frontend/.idea
+
+# Node modules
+/frontend/node_modules
+/backend/node_modules
 
 
 # OS-specific files
