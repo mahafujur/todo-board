@@ -1,0 +1,19 @@
+# Node.js dependencies
+node_modules/
+*.log
+.idea
+
+# Build directories
+/frontend/build/
+/backend/dist/
+
+# Environment files
+/frontend/.env
+/backend/.env
+/backend/.idea
+/frontend/.idea
+
+
+# OS-specific files
+.DS_Store
+Thumbs.db
