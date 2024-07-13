@@ -1,3 +1,5 @@
+@import 'buttonStyle/buttonEffects.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,4 +32,27 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+html {
+  overflow: auto !important;
+  padding-right: 0 !important;
 }

@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import logger from "./config/logger";
 
 import { app } from "./app";
+import cors from "cors";
 
 const startServer = async () => {
   // Check if ENV Variables exist
@@ -36,7 +37,7 @@ const startServer = async () => {
   // Log the server starting info
   logger.info("Starting-up Server.");
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 4000;
   const SERVICE_NAME = process.env.APPLICATION_NAME;
 
   try {
@@ -57,6 +58,9 @@ const startServer = async () => {
     // Save the error log
     logger.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
   }
+
+  // Apply CORS middleware
+  app.use(cors({ origin: "http://localhost:3000" }));
 
   // ========================Starting Auth Server========================
   app.listen(PORT, () => {

@@ -1,0 +1,19 @@
+/* Button hover states */
+.blue_hover_1:hover,
+.hover-blue-primary:hover,
+.hover-blue-secondary:hover {
+  background: linear-gradient(85.34deg, #5468ff 3.25%, #0081ff 99.2%);
+  color: white; /* This will also be inherited by SVGs using currentColor */
+}
+
+.pink_hover_1:hover,
+.hover-pink-primary:hover,
+.hover-pink-secondary:hover {
+  background: linear-gradient(85.34deg, #cf278d 3.25%, #ef4ba9 99.2%);
+  color: white; /* This will also be inherited by SVGs using currentColor */
+}
+
+/* Ensure SVG icons follow the button's color */
+.button-icon {
+  fill: currentColor;
+}

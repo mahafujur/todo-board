@@ -1,9 +1,7 @@
-// pages/index.tsx
-
 import Head from 'next/head';
 import React from "react";
 import Link from "next/link";
-import SEO from "@/Components/Templates/SEO";
+import SEO from "@/components/Templates/SEO";
 
 const Home: React.FC = () => {
     return (

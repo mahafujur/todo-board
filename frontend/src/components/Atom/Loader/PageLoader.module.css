@@ -1,0 +1,29 @@
+.loader {
+  height: 4px;
+  width: 120px;
+  border-radius: 4px;
+  --c: no-repeat linear-gradient(#5468ff 0 0);
+  background: var(--c), var(--c), #d9d9d9;
+  background-size: 60% 100%;
+  animation: loader 3s infinite;
+}
+
+@keyframes loader {
+  0% {
+    background-position: -150% 0, -150% 0;
+  }
+  66% {
+    background-position: 250% 0, -150% 0;
+  }
+  100% {
+    background-position: 250% 0, 250% 0;
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+  .loader {
+    height: 6px;
+    width: 180px;
+  }
+}
