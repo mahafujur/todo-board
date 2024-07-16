@@ -11,7 +11,7 @@ export interface FormErrorMessageProps
   extends React.HTMLAttributes<HTMLDivElement>,
     IFormErrorMessageProps {}
 
-const baseClass = ` mt-3 leading-none  text-base flex items-center text-error-400`;
+const baseClass = 'mt-3 leading-none  text-base flex items-center text-error400';
 
 // eslint-disable-next-line react/display-name
 const FormErrorMessage = React.forwardRef<

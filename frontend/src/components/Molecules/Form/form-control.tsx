@@ -67,10 +67,10 @@ const FormControl = React.forwardRef<HTMLDivElement, FormControlProps>(
         >
           {label && <FormLabel htmlFor={htmlFor}>{label}</FormLabel>}
           {children}
-          {errors &&
+          {errors ?
             errors.map((err, key) => (
               <FormErrorMessage key={key}>{err}</FormErrorMessage>
-            ))}
+            )) : <span className={'mt-3'}/>}
         </div>
       </FormControlProvider>
     );

@@ -1,9 +1,11 @@
 import React from 'react';
-import {Button} from "@/components/Atom";
+import {Button, Input} from "@/components/Atom";
 import Link from "next/link";
-import Input from "@/components/Atom/Input";
+
 import {FormControl} from "@/components/Molecules/Form";
 import useLoginForm from "@/hooks/useLoginForm";
+import {FieldPath, FieldPathValue} from "react-hook-form";
+import {LoginFormProps} from "@/types/forms";
 
 const LoginForm: React.FC = () => {
     const {
@@ -22,12 +24,14 @@ const LoginForm: React.FC = () => {
                         label="Email"
                         htmlFor="email"
                         className="mb-4"
-                        errors={errors?.email?.message ? [errors?.email?.message] : undefined}
+                        errors={errors?.email?.message && errors?.email?.message?.length > 0 ? [errors?.email?.message as string] : []}
                     >
                         <Input
                             id="email"
                             placeholder="Your email"
-                            onChange={({target: {value}}: any) => setValue('email', value)}
+                            onChange={({target: {value}}) => {
+                                setValue('email' as FieldPath<LoginFormProps>, value as FieldPathValue<LoginFormProps, 'email'>);
+                            }}
                             autoComplete="on"
                         />
                     </FormControl>
@@ -39,22 +43,24 @@ const LoginForm: React.FC = () => {
                         htmlFor="password"
                         className="mb-4"
                         errors={
-                            errors?.password?.message ? [errors?.password?.message] : undefined
+                            errors?.password?.message && errors?.password?.message?.length > 0 ? [errors?.password?.message as string] : undefined
                         }
                     >
                         <Input
+                            status={errors?.password?.message && errors?.password?.message?.length > 0 ? 'error' : 'default'}
                             id="password"
                             placeholder="Your Password"
-                            onChange={({target: {value}}: any) =>
-                                setValue('password', value)
-                            }
+                            onChange={({target: {value}}) => {
+                                setValue('password' as FieldPath<LoginFormProps>, value as FieldPathValue<LoginFormProps, 'email'>);
+                            }}
                             autoComplete="on"
                             type="password"
                         />
                     </FormControl>
                 </div>
                 <div className="w-full">
-                    <Button loading={loading} htmlType={'submit'} variant={'blue'} size={'large'} type={'primary'} fullWidth>
+                    <Button loading={loading} htmlType={'submit'} variant={'blue'} size={'large'} type={'primary'}
+                            fullWidth>
                         Sign In
                     </Button>
                 </div>

@@ -22,7 +22,6 @@ const FormTitle = React.forwardRef<HTMLLabelElement, LabelProps>(
     ref,
   ) => {
     // Add ref parameter here
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const disabledClass = disabled ? 'opacity-60' : '';
 

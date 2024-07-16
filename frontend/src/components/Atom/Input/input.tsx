@@ -1,17 +1,12 @@
 import clsx from 'clsx';
-import React, {
-    PropsWithoutRef,
-    RefAttributes,
-    useCallback,
-    useState,
-} from 'react';
+import React, {PropsWithoutRef, RefAttributes, useCallback, useState,} from 'react';
 
-import { useFormControl } from '@/components/Molecules/Form/form-control-context';
-import { __DEV__ } from '@/utils/env';
+import {useFormControl} from '@/components/Molecules/Form/form-control-context';
+import {__DEV__} from '@/utils/env';
 
 
-import { StyledInput } from './input.style';
-import { InputSize, InputStatus } from './inputTypes';
+import {StyledInput} from './input.style';
+import {InputSize, InputStatus} from './inputTypes';
 import Icon from "@/components/Icons";
 
 export interface IInputProps<T = HTMLInputElement> {
@@ -24,6 +19,7 @@ export interface IInputProps<T = HTMLInputElement> {
     isEmail?: boolean;
     isNameInput?: boolean;
     containerClass?: string;
+    error?: boolean;
 }
 
 type NativeAttrs = Omit<
@@ -48,11 +44,12 @@ const Input: React.ForwardRefExoticComponent<
             isNameInput,
             type,
             containerClass,
+            error,
             ...props
         },
         ref,
     ) => {
-        const { readOnly, disabled, invalid, ...formControl } =
+        const {readOnly, disabled, invalid, ...formControl} =
             useFormControl(props);
 
         const sizeClass = StyledInput.internal[size];
@@ -67,7 +64,7 @@ const Input: React.ForwardRefExoticComponent<
             sizeClass,
             statusClass,
             passwordClass,
-            className,
+            className
         );
 
         const inputType = type ? type : textOnly ? 'text' : 'input';

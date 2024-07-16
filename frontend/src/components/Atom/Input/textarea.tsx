@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 
 import {__DEV__} from '@/utils/env';
+import {StyledInput} from "./input.style";
 
 export interface ITextAreaProps {
     size?: 'sm' | 'md' | 'lg';
@@ -24,23 +25,17 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             status = 'default',
             hideResize = false,
             className,
-            error,
             ...props
         },
         ref,
     ) => {
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const sizeClass = StyledInput.internal[size];
-        const statusClassName = error ? 'error' : status;
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const statusClass = StyledInput.status[statusClassName];
+        const statusClass = StyledInput.status[status];
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+
         const baseClass = StyledInput['base'];
 
         return (

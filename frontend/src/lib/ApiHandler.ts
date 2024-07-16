@@ -6,7 +6,9 @@ export const sendPostRequest = async (
 ): Promise<any> => {
   const API_DATA = { ...apiData };
   try {
-    const response: AxiosResponse = await axios.post(url, API_DATA);
+    const response: AxiosResponse = await axios.post(url, API_DATA,{
+      withCredentials:true,
+    });
     if (response.status === 401) {
       document.location.href = '/login';
     }

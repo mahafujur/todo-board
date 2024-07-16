@@ -14,15 +14,14 @@ export interface FormLabelProps
   extends React.HTMLAttributes<HTMLLabelElement>,
     IFormLabelProps {}
 
-const baseClass = `block text-base leading-[160%] font-bangla font-medium text-left mb-[10px] text-accent500`;
+const baseClass = `block text-base leading-[160%] font-medium text-left mb-[10px] text-accent500`;
 
 // eslint-disable-next-line react/display-name
 const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
   ({ children, className, htmlFor, id, ...rest }, ref) => {
     const formControl = useFormControl(rest);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+     // @ts-ignore
     const disabledClass = formControl?.disabled ? 'opacity-60' : '';
 
     const classes = clsx(baseClass, disabledClass, className);

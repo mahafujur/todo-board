@@ -1,12 +1,10 @@
 import type {Config} from "tailwindcss";
 
 const config: Config = {
-    content: [
-        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
+    darkMode:'media',
+    content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}",],
     theme: {
+        extend:{
         colors: {
             primary50: '#e8e8ff',
             primary100: '#c6c6ff',
@@ -90,12 +88,6 @@ const config: Config = {
             warning900: '#ed6b17'
 
         },
-        extend: {
-            backgroundImage: {
-                "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-                "gradient-conic":
-                    "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-            },
         },
     },
     plugins: [],

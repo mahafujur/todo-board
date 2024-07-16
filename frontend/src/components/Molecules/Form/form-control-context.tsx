@@ -43,14 +43,11 @@ export const useFormControl = (
   }
   const keys = Object.keys(context);
   return keys.reduce((acc, prop) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     acc[prop] = props[prop];
     if (context) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (props[prop] == null) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         acc[prop] = context[prop];
       }

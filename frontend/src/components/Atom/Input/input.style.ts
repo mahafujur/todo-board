@@ -6,7 +6,7 @@ export const StyledInput = {
     inline-flex
     items-center
     m-0
-    text-gray-800
+    text-gray800
     placeholder-gray600
     bg-white 
     border-[1.5px]
@@ -30,15 +30,15 @@ export const StyledInput = {
     hover:disabled:shadow-none
   `,
   internal: {
-    xs: `p-4 text-base text-gray-800`,
-    sm: `p-3 text-base  text-gray-800`,
-    md: `p-[11px] md:p-4 text-xs md:text-base text-gray-800`,
-    lg: `p-4 text-base  text-gray-800`,
+    xs: `p-4 text-base text-gray800`,
+    sm: `p-3 text-base  text-gray800`,
+    md: `p-[11px] md:p-4 text-xs md:text-base text-gray800`,
+    lg: `p-4 text-base  text-gray800`,
   },
   status: {
-    error: `border-error hover:border-error focus:border-error`,
-    warning: `border-red-200 hover:border-error focus:border-error`,
-    default: `border-gray-300  hover:border-gray-200 focus:border-gray-300`,
+    error: `border-error hover:border-error500 focus:border-error500`,
+    warning: `border-red200 hover:border-error focus:border-error`,
+    default: `border-gray300  hover:border-gray200 focus:border-gray300`,
   },
   password: 'pr-10 md:pr-[56px]',
 };
