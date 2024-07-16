@@ -18,8 +18,12 @@ app.use(morganLogger());
 // Configuring express app to trust proxied requests from ingress-nginx.
 app.set("trust proxy", true);
 
+const corsOptions = {
+  origin: process.env.FRONTEND_URL, // Set this to your frontend URL
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
 // Apply CORS middleware
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors(corsOptions));
 
 app.use(json());
 app.use(cookieParser());

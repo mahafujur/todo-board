@@ -59,8 +59,12 @@ const startServer = async () => {
     logger.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
   }
 
-  // Apply CORS middleware
-  app.use(cors({ origin: "http://localhost:3000" }));
+  const corsOptions = {
+    origin: process.env.FRONTEND_URL, // Set this to your frontend URL
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  };
+// Apply CORS middleware
+  app.use(cors(corsOptions));
 
   // ========================Starting Auth Server========================
   app.listen(PORT, () => {
