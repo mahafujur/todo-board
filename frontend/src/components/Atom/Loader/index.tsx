@@ -1,6 +1,6 @@
 import styles from './PageLoader.module.css';
 import { FC } from 'react';
-import Icon from "@/components/Icons";
+import Icon from "../../../Icons";
 
 const Loader: FC<{ fullPage?: boolean }> = ({ fullPage = true }) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconNameProps, IconsMap } from './Icons';
+import { IconNameProps, IconsMap } from './Icons.ts';
 
 type IconProps = {
   name: IconNameProps;

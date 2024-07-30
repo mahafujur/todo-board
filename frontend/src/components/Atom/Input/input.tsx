@@ -7,7 +7,7 @@ import {__DEV__} from '@/utils/env';
 
 import {StyledInput} from './input.style';
 import {InputSize, InputStatus} from './inputTypes';
-import Icon from "@/components/Icons";
+import Icon from "../../../Icons";
 
 export interface IInputProps<T = HTMLInputElement> {
     size?: InputSize;

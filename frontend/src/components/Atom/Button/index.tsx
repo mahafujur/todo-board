@@ -54,7 +54,7 @@ const Button: React.FC<ButtonProps> = ({
         blue: {
             primary:
                 'cursor-pointer bg-blue-400 text-white blue_hover_1 disabled:bg-primaryBlueDisabled disabled:cursor-not-allowed',
-            outline: 'cursor-pointer text-blue-400 border border-blue-400',
+            outline: 'cursor-pointer text-blue-400 hover:bg-white hover:shadow border border-blue-400',
             text: 'cursor-pointer text-blue-400 hover:underline',
         },
         pink: {
