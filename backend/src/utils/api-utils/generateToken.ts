@@ -17,8 +17,8 @@ const generateToken = (
     );
 
     const cookieOptions = {
-        httpOnly: process.env.NODE_ENV !== "development" , // To prevent cookies from being accessed by client-side scripts
-        secure: process.env.NODE_ENV !== "development", // Value will be false in the development environment and hence http will be allowed in development
+        httpOnly: process.env.NODE_ENV === 'production', // To prevent cookies from being accessed by client-side scripts
+        secure:  process.env.NODE_ENV === 'production',// Value will be false in the development environment and hence http will be allowed in development
         sameSite: "strict" as const,
         maxAge: 30 * 24 * 60 * 60 * 1000, // Sets expiry of cookie to 30 days
     };

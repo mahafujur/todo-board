@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {LoginFormProps} from "@/types/forms";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useRouter} from 'next/router';
-import {useLoginApiHandler} from "@/hooks/useAuthApiHandler";
+import {useLoginApi} from "@/hooks/useLoginApi.ts";
 import {getAxiosErrorMessage} from "@/utils/helper.ts";
 
 export const loginSchema = yup.object({
@@ -17,7 +17,7 @@ const useLoginForm = () => {
     const {setValue, handleSubmit, setError, clearErrors, register, formState: {errors}} = useForm<LoginFormProps>({
         resolver: yupResolver(loginSchema),
     });
-    const {signInApiCall} = useLoginApiHandler();
+    const {signInApiCall} = useLoginApi();
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (data: LoginFormProps) => {

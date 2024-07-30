@@ -6,7 +6,7 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "A simple Authentication Server API Documentation",
+      title: "A simple Todo Server API Documentation",
       version: "1.0.0",
     },
     servers: [

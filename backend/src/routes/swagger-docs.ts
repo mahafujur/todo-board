@@ -270,3 +270,41 @@
  *                           description: Error message indicating not authorized.
  *                           example: Not Authorized.
  */
+
+/**
+ * @swagger
+ * paths:
+ *   /api/v1/categories:
+ *     post:
+ *       summary: Create Categories
+ *       description: Create categories for ticket
+ *       tags: [Categories]
+ *       responses:
+ *         '200':
+ *           description: Successfully category created
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   status:
+ *                     type: string
+ *                     description: Sign-out status message
+ *                     example: Signed out.
+ *         '400':
+ *           description: Bad Request - Not Authorized
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   errors:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         message:
+ *                           type: string
+ *                           description: Error message indicating not authorized.
+ *                           example: Not Authorized.
+ */

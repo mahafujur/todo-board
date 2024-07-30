@@ -1,41 +1,39 @@
-import express, {Request, Response} from "express";
-import {body} from "express-validator";
-
-import {User} from "../../models/user";
-
-import {validateRequest} from "base-auth-handler";
-import {BadRequestError} from "base-error-handler";
-import generateToken from "../../utils/api-utils/generateToken";
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import { User } from '../../models/user';
+import { Password } from '../../utils/api-utils/password';
+import generateToken from '../../utils/api-utils/generateToken';
+import { validateRequest } from '../../utils/api-utils/validateRequest'; // Custom validation function
 
 const router = express.Router();
 
 router.post(
-    "/signup",
+    '/signup',
     [
-        body("email").isEmail().withMessage("Provide a valid Email"),
-        body("password")
+        body('email').isEmail().withMessage('Provide a valid Email'),
+        body('password')
             .trim()
-            .isLength({min: 4, max: 20})
-            .withMessage("Password must be between 4 and 20 characters"),
+            .isLength({ min: 4, max: 20 })
+            .withMessage('Password must be between 4 and 20 characters'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
-        const existingUser = await User.findOne({email: email});
+        const existingUser = await User.findOne({ email: email });
 
         if (existingUser) {
-            throw new BadRequestError("Email already exists.");
+            return res.status(400).send({ error: 'Email already exists.' });
         }
 
-        const user = User.build({email: email, password: password});
+        const hashedPassword = await Password.toHash(password); // Ensure password is hashed
+        const user = User.build({ email: email, password: hashedPassword });
         await user.save();
 
-        // Generate JWT and add to res.cookies object
         generateToken(res, user.id, user.email);
 
         res.status(201).send(user);
     }
 );
 
-export {router as signUpRouter};
+export { router as signUpRouter };

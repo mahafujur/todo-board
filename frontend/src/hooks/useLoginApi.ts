@@ -1,7 +1,7 @@
 import {sendPostRequest} from '@/lib/ApiHandler';
 import {AuthLoginUrl} from '@/utils/apiAccessUrls';
 
-export const useLoginApiHandler = () => {
+export const useLoginApi = () => {
     const signInApiCall = (email: string, secret: string) => {
         return sendPostRequest(AuthLoginUrl, {
             email,

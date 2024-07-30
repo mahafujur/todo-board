@@ -47,14 +47,12 @@ const startServer = async () => {
     console.log(
       `Connected to ${SERVICE_NAME} MongoDB successfully with host as: ${dbConnection.connection.host} !!!!!`
     );
-
     // Log the DB connection info
     logger.info(
       `Connected to ${SERVICE_NAME} MongoDB successfully with host as: ${dbConnection.connection.host}`
     );
   } catch (err) {
     console.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
-
     // Save the error log
     logger.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
   }
@@ -69,10 +67,8 @@ const startServer = async () => {
   // ========================Starting Auth Server========================
   app.listen(PORT, () => {
     console.log(`${SERVICE_NAME} listening on PORT: ${PORT} !!!!!`);
-
     // Log the successful server starting info
     logger!.info(`Successfully Started ${SERVICE_NAME} on PORT: ${PORT}`);
-
     console.info(`API Docs available at http://localhost:${PORT}/api-docs`);
     console.info(`API Docs JSON available at http://localhost:${PORT}/api-docs.json`);
   });
