@@ -17,8 +17,8 @@ interface CategoryCreateModalProps {
 }
 
 const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
-    const {categories, setCategoryModalOpen, categoryModalOpen} = useBoardStore();
-    const [loader,setLoader]=useState(false)
+    const { setCategoryModalOpen, updateCategory} = useBoardStore();
+    const [loader, setLoader] = useState(false)
     const {createACategory} = useCategory()
     const {
         handleSubmit,
@@ -34,15 +34,14 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
         const {title} = data;
         setLoader(true)
         createACategory(title).then((response) => {
-                const categories = response
                 console.log(response)
-                // updateCategories(categories || [])
+                const newCategory = {id: response._id as string, name: response.name as string}
+                updateCategory(newCategory)
             }
         ).catch((error) => console.log(error?.response?.status)).finally(() => {
             setCategoryModalOpen(false)
             setLoader(false)
         });
-
         reset();
     };
 
@@ -80,11 +79,13 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
 
                 </div>
                 <div className="flex justify-end my-5">
-                    <Button  disabled={loader} variant={'pink'} size={'medium'} onClick={() => setCategoryModalOpen(false)} className="mr-2"
+                    <Button disabled={loader} variant={'pink'} size={'medium'}
+                            onClick={() => setCategoryModalOpen(false)} className="mr-2"
                             type={'primary'}>
                         Cancel
                     </Button>
-                    <Button loading={loader} disabled={loader} type={'primary'} variant={'blue'} size={'medium'}>Create</Button>
+                    <Button loading={loader} disabled={loader} type={'primary'} variant={'blue'}
+                            size={'medium'}>Create</Button>
                 </div>
             </form>
         </div>

@@ -25,7 +25,7 @@ const PrivateLayout: React.FC<PrivateLayoutProps> = ({children, title, descripti
             </Head>
 
             <Header/>
-            <main className={'bg-accent50 min-h-screen'}>
+            <main className={'px-4 md:px-6 bg-accent50 min-h-screen pt-[80px]'}>
                 {children}
             </main>
 

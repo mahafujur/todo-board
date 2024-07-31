@@ -7,33 +7,35 @@ import {useTicket} from "@/hooks/useTicket.ts";
 const TodoBoard = () => {
     const {getAllCategories} = useCategory()
     const {getAllTickets} = useTicket()
-    const {updateCategories, categories,setTickets,tickets} = useBoardStore()
+    const {setCategories, categories, setTickets, tickets} = useBoardStore()
 
     useEffect(() => {
         getAllCategories().then((response) => {
                 const categories = response?.map(({name, _id}) => ({name: name, id: _id}))
-                updateCategories(categories || [])
+                setCategories(categories || [])
             }
         ).catch((error) => console.log(error?.response?.status))
     }, []);
 
     useEffect(() => {
         getAllTickets().then((response) => {
-                const ticketsResponse= response?.map((data)=>{
-                    delete data._id;
-                    delete  data.__v;
-                    delete  data.user;
-                    return {...data,category: data.category._id, id: data._id};
-                })
-               setTickets(ticketsResponse || [])
+               const filteredData=  response?.map(({_id, category, title, description, expiryDate}) => ({
+                    id: _id,
+                    title: title,
+                    expiryDate: expiryDate,
+                    description: description,
+                    category: category?._id || 'Todo',
+                }))
+                setTickets(filteredData || [])
             }
-        ).catch((error) => console.log(error?.response?.status))
+        ).catch((error) => console.log(`error = ${error?.response?.status}`))
     }, []);
 
-    console.log(tickets,'tickets')
-    return (
+     return (
         <PrivateLayout>
-            <div className={'bg-red-500 h-screen'}></div>
+            <div className={' pt-[10px]'}>
+                {tickets.map((ticket) => ticket.title)}
+            </div>
         </PrivateLayout>
     )
 }

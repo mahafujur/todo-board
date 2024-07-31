@@ -17,7 +17,7 @@ router.post('/', auth, async (req: AuthRequest, res: Response) => {
         }
 
         // If category does not exist, create and save the new category
-        const category = new Category({ name });
+        const category = new Category({ name, user: req.user?.id });
         await category.save();
 
         res.status(201).json(category); // Return the created category
@@ -47,4 +47,4 @@ router.get('/', auth, async (req: AuthRequest, res: Response) => {
     }
 });
 
-export  {router as categoryRouter};
+export {router as categoryRouter} ;

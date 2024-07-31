@@ -68,7 +68,7 @@ const CreateTicketForm: React.FC<TicketCreateModalProps> = () => {
                     Create Ticket
                 </Typography>
             </div>
-            {categories?.length > 1 ?
+            {categories?.length  ?
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mt-2">
                         <FormControl
