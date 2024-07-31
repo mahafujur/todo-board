@@ -15,7 +15,7 @@ The To-Do Board Solution is a web application designed to manage tasks effective
 - 
 ## Tech Stack
 
-- **Backend**: Express.js and Node.js
+- **Backend**: Express.js and Node.js and Mongodb
 - **Frontend**: Next.js
 - **Frontend Structure**: Atomic Design with custom components
 
