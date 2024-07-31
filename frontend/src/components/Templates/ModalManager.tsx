@@ -1,15 +1,23 @@
 import Modal from "@/components/Organisms/Modal";
 import useBoardStore from "@/store/useBoardStore.ts";
-import CreateTicketCard from "@/components/Organisms/Cards/CreateTicketCard.tsx";
+import CreateTicketForm from "@/components/Organisms/Forms/CreateTicketForm.tsx";
+import {CreateCategoryForm} from "@/components/Organisms/Forms";
 
 const ModalManager = () => {
-    const {modalOpen, setModalOpen} = useBoardStore()
+    const {ticketModalOpen, setTicketModal, categoryModalOpen, setCategoryModal} = useBoardStore()
 
-    if (modalOpen)
+    if (ticketModalOpen)
         return (
-            <Modal children={<CreateTicketCard/>} open={modalOpen} onCancel={() => setModalOpen(false)}>
+            <Modal children={<CreateTicketForm/>} open={ticketModalOpen} onCancel={() => setTicketModal(false)}>
             </Modal>
         )
+
+    if (categoryModalOpen)
+        return (
+            <Modal children={<CreateCategoryForm/>} open={categoryModalOpen} onCancel={() => setCategoryModal(false)}>
+            </Modal>
+        )
+
     return null
 
 }

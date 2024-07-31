@@ -24,6 +24,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             size = 'md',
             status = 'default',
             hideResize = false,
+            onChange,
             className,
             ...props
         },
@@ -43,6 +44,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 {...props}
                 id={id}
                 ref={ref}
+                onChange={onChange}
                 className={clsx(
                     sizeClass,
                     statusClass,

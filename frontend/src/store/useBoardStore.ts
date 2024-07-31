@@ -1,12 +1,6 @@
 import { create } from 'zustand';
+import {Ticket} from "@/types/ticket.ts";
 
-interface Ticket {
-    id: string;
-    title: string;
-    description: string;
-    expiryDate: string;
-    categoryId: string;
-}
 
 interface Category {
     id: string;
@@ -16,8 +10,11 @@ interface Category {
 interface BoardStore {
     categories: Category[];
     tickets: Ticket[];
-    modalOpen: boolean;
-    setModalOpen: (open: boolean) => void;
+    setTickets:(tickets: Ticket[])=>void;
+    ticketModalOpen: boolean;
+    setTicketModal: (open: boolean) => void;
+    categoryModalOpen: boolean;
+    setCategoryModalOpen: (categoryModalOpen: boolean) => void;
     updateCategories: (categories: Category[]) => void;
     addTicket: (ticket: Ticket) => void;
 }
@@ -25,15 +22,19 @@ interface BoardStore {
 const useBoardStore = create<BoardStore>((set) => ({
     categories: [],
     tickets: [],
-    modalOpen: false,
-    setModalOpen: (open) => set({ modalOpen: open }),
+    ticketModalOpen: false,
+    setTicketModal: (open) => set({ ticketModalOpen: open }),
+    categoryModalOpen: false,
+    setCategoryModalOpen: (open) => set({ categoryModalOpen: open }),
     updateCategories: (categories) =>
         set({ categories: categories }),
+    setTickets: (tickets) =>
+        set({ tickets: tickets }),
     addTicket: (ticket) =>
         set((state) => ({
             tickets: [...state.tickets, ticket],
             categories: state.categories.map((category) =>
-                category.id === ticket.categoryId
+                category.id === ticket.category
                     ? { ...category }
                     : category
             ),

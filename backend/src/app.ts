@@ -3,10 +3,10 @@ import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { errorHandler, NotFoundError } from 'base-error-handler';
 import morganLogger from './config/logger/HTTP-request-logger';
 import generateSwaggerDocs from './config/API Documentation/swagger';
 import APIs from './routes';
+import {errorHandler, NotFoundError} from "./middleware/error-handler";
 
 const PORT = process.env.PORT || 3000;
 const app = express();

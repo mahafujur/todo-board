@@ -6,9 +6,12 @@ import {Button} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 
 const Header = () => {
-    const {modalOpen, setModalOpen} = useBoardStore()
+    const {ticketModalOpen, setTicketModal,setCategoryModalOpen,categoryModalOpen} = useBoardStore()
     const handleCreateATicket = () => {
-        if (!modalOpen) setModalOpen(true)
+        if (!ticketModalOpen) setTicketModal(true)
+    }
+    const handleCreateACategory = () => {
+        if (!categoryModalOpen) setCategoryModalOpen(true)
     }
     return (
         <div
@@ -19,6 +22,10 @@ const Header = () => {
                 <Button className={'ml-3 md:ml-6'} onClick={handleCreateATicket} variant={'blue'} size={'medium'}
                         type={'outline'}>
                     Create +</Button>
+                <Button className={'ml-3 md:ml-6'} onClick={handleCreateACategory} variant={'blue'} size={'small'}
+                        type={'text'}>
+                    Add category</Button>
+
             </div>
             <Icon name={'avatar'} className={'w-12 h-12'}/>
 

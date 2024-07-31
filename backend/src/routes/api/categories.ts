@@ -47,4 +47,4 @@ router.get('/', auth, async (req: AuthRequest, res: Response) => {
     }
 });
 
-export default router;
+export  {router as categoryRouter};
