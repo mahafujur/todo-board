@@ -32,9 +32,14 @@ The To-Do Board Solution is a web application designed to manage tasks effective
 2. **Environment Variables**:
    Create a `.env` file in the `backend` folder with the following variables:
    ```
-   PORT=4000
-   DATABASE_URL=your_database_url
-   JWT_SECRET=your_jwt_secret
+    APPLICATION_NAME=TODO_AUTH_SERVER
+    NODE_ENV=development
+    PORT=4000
+    JWT_KEY=asdfafdjllkadkfa
+    JWT_TOKEN_DURATION=30d
+    MONGO_DB_URI=
+    FRONTEND_URL=http://localhost:3000
+
    ```
 
 3. **Start the Server**:
