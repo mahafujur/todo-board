@@ -4,11 +4,6 @@ import axios, { AxiosResponse } from 'axios';
 interface ApiData {
   [key: string]: any;
 }
-// Define the type for the function's response
-interface ApiResponse {
-  [key: string]: any;
-}
-
 
 // Define the type for the function's response
 interface ApiResponse {
@@ -42,11 +37,11 @@ const sendPostRequest = async (
     if (axios.isAxiosError(error)) {
       // Handle Axios-specific errors
       console.error('Axios error:', error.message);
-      throw new Error(`Request failed: ${error.message}`);
+      throw error;
     } else {
       // Handle non-Axios errors
       console.error('Unexpected error:', error);
-      throw new Error('An unexpected error occurred');
+      throw error;
     }
   }
 };
@@ -76,11 +71,11 @@ const sendPostRequest = async (
     if (axios.isAxiosError(error)) {
       // Handle Axios-specific errors
       console.error('Axios error:', error.message);
-      throw new Error(`Request failed: ${error.message}`);
+      throw error;
     } else {
       // Handle non-Axios errors
       console.error('Unexpected error:', error);
-      throw new Error('An unexpected error occurred');
+      throw error;
     }
   }
 };
@@ -112,11 +107,11 @@ const sendPutRequest = async (
     if (axios.isAxiosError(error)) {
       // Handle Axios-specific errors
       console.error('Axios error:', error.message);
-      throw new Error(`Request failed: ${error.message}`);
+      throw error;
     } else {
       // Handle non-Axios errors
       console.error('Unexpected error:', error);
-      throw new Error('An unexpected error occurred');
+      throw error;
     }
   }
 };

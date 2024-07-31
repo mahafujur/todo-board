@@ -39,7 +39,7 @@ const CreateTicketForm: React.FC<TicketCreateModalProps> = () => {
     const onSubmit = (data: any) => {
         setLoader(true)
         createATicket(data).then((res) => {
-          addTicket({
+            addTicket({
                 id: res._id,
                 title: res.title,
                 expiryDate: res.expiryDate,
@@ -68,7 +68,7 @@ const CreateTicketForm: React.FC<TicketCreateModalProps> = () => {
                     Create Ticket
                 </Typography>
             </div>
-            {categories?.length  ?
+            {categories?.length ?
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mt-2">
                         <FormControl
@@ -139,7 +139,7 @@ const CreateTicketForm: React.FC<TicketCreateModalProps> = () => {
                     <Typography tag={'p'} variant={{
                         web: 'Body-18-Semibold',
                         mobile: 'Body-14-Semibold'
-                    }}>You don't have any category,please add one </Typography>
+                    }}>You don&apos;t have any category,please add one </Typography>
                     <Button variant={'blue'} size={'large'} type={'outline'} onClick={() => {
                         setTicketModal(false)
                         setCategoryModalOpen(true)

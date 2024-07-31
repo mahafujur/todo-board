@@ -3,3 +3,8 @@ export type LoginFormProps = {
     password: string;
 };
 
+export type SignUpFormProps = {
+    email: string;
+    name:string;
+    password: string;
+};

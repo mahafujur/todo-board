@@ -91,7 +91,7 @@ const Input: React.ForwardRefExoticComponent<
                     onChange(e); // Pass the event to the original onChange prop
                 }
             },
-            [textOnly, onChange, isEmail],
+            [textOnly, onChange, isEmail,isNameInput],
         );
 
         return (

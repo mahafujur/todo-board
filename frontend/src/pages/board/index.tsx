@@ -11,21 +11,23 @@ const TodoBoard = () => {
     const {setCategories, categories, setTickets, tickets} = useBoardStore()
 
     useEffect(() => {
-        getAllCategories().then((response) => {
-                const categories = response?.map(({name, _id}) => ({name: name, id: _id}))
+        getAllCategories().then((res) => {
+            const response:any=res
+                const categories = response?.map((data:any) => ({name: data.name, id: data._id }))
                 setCategories(categories || [])
             }
         ).catch((error) => console.log(error?.response?.status))
     }, []);
 
     useEffect(() => {
-        getAllTickets().then((response) => {
-               const filteredData=  response?.map(({_id, category, title, description, expiryDate}) => ({
-                    id: _id,
-                    title: title,
-                    expiryDate: expiryDate,
-                    description: description,
-                    category: category?._id || 'Todo',
+        getAllTickets().then((res) => {
+            const response:any=res;
+               const filteredData=  response?.map((data:any) => ({
+                    id: data._id,
+                    title: data.title,
+                    expiryDate: data.expiryDate,
+                    description: data.description,
+                    category: data.category?._id || 'Todo',
                 }))
                 setTickets(filteredData || [])
             }

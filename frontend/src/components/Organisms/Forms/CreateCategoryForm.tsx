@@ -12,6 +12,9 @@ const schema = yup.object().shape({
     title: yup.string().required('Title is required'),
 });
 
+type FormType={
+    title:string;
+}
 interface CategoryCreateModalProps {
     title?: string
 }
@@ -30,8 +33,8 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
         defaultValues: {},
     });
 
-    const onSubmit = (data) => {
-        const {title} = data;
+    const onSubmit = (data:FormType) => {
+        const {title} = data || {};
         setLoader(true)
         createACategory(title).then((response) => {
                 console.log(response)

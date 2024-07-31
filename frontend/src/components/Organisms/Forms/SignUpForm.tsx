@@ -3,22 +3,22 @@ import {Button, Input} from "@/components/Atom";
 import Link from "next/link";
 
 import {FormControl} from "@/components/Molecules/Form";
-import useLoginForm from "@/hooks/useLoginForm.ts";
 import {FieldPath, FieldPathValue} from "react-hook-form";
 import {LoginFormProps} from "@/types/forms";
+import useSignUpForm from "@/hooks/useSignUpForm.ts";
 
-const LoginForm: React.FC = () => {
+const SignUPForm: React.FC = () => {
     const {
-        onSubmit,
+        onSubmitSignUp,
         loading,
         hookFormProps: {handleSubmit, setValue, errors},
-    } = useLoginForm();
+    } = useSignUpForm();
 
     return (
         <div className="max-w-md w-full mx-auto">
 
-            <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div className="mb-4">
+            <form onSubmit={handleSubmit(onSubmitSignUp)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div>
                     <FormControl
                         required={true}
                         label="Email"
@@ -61,15 +61,15 @@ const LoginForm: React.FC = () => {
                 <div className="w-full">
                     <Button loading={loading} htmlType={'submit'} variant={'blue'} size={'large'} type={'primary'}
                             fullWidth>
-                        Sign In
+                        Sign Up
                     </Button>
                 </div>
             </form>
             <div className={'flex justify-center items-center'}>
-                <Link href={'/signup'} className={'underline text-blue-600'}> Create a account </Link>
+                <Link href={'/login'} className={'underline text-blue-600'}> Already have a account? </Link>
             </div>
         </div>
     );
 };
 
-export default LoginForm;
+export default SignUPForm;

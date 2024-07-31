@@ -7,24 +7,25 @@ import {useRouter} from 'next/router';
 import {useAuthApi} from "@/hooks/useAuthApi.ts";
 import {getAxiosErrorMessage} from "@/utils/helper.ts";
 
-export const loginSchema = yup.object({
+export const signUpSchema = yup.object({
     email: yup.string().required('Email is required').email('Provide correct email address'),
     password: yup.string().min(6).required('Password is required'),
 });
 
-const useLoginForm = () => {
+const useSignUpForm = () => {
     const router = useRouter();
     const {setValue, handleSubmit, setError, clearErrors, register, formState: {errors}} = useForm<LoginFormProps>({
-        resolver: yupResolver(loginSchema),
+        resolver: yupResolver(signUpSchema),
     });
-    const {signInApiCall} = useAuthApi();
+    const {signUpApiCall} = useAuthApi();
     const [loading, setLoading] = useState(false);
 
-    const onSubmit = async (data: LoginFormProps) => {
+    const   onSubmitSignUp= async (data: LoginFormProps) => {
         setLoading(true);
         try {
-            const res = await signInApiCall(data.email, data.password);
-            if (res?.user?.id) {
+            const res = await signUpApiCall(data.email, data.password);
+            console.log(res,'res')
+            if (res?.id) {
                 router.push('/board');
             }
             setLoading(false);
@@ -40,9 +41,9 @@ const useLoginForm = () => {
 
     return {
         hookFormProps: {setValue, handleSubmit, errors, clearErrors, register},
-        onSubmit,
+        onSubmitSignUp,
         loading,
     };
 };
 
-export default useLoginForm;
+export default useSignUpForm;

@@ -79,13 +79,13 @@ const CategoryRow: React.FC<{ category: Category }> = ({category}) => {
     );
 };
 const Board: React.FC = () => {
-    const {categories, addCategory} = useBoardStore();
+    const {categories} = useBoardStore();
 
     return (
         <div className="flex space-x-4 overflow-x-scroll p-4">
-            {categories.map((category) => (
+            {categories?.map((category) => (
                 <CategoryRow key={category.id} category={category}/>
-            ))}
+            )) || 'No category found,Create one'}
         </div>
     );
 };
