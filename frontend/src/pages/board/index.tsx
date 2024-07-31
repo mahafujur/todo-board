@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import PrivateLayout from "@/components/Organisms/Layout/PrivateLayou.tsx";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {useTicket} from "@/hooks/useTicket.ts";
+import Board from "@/components/Templates/Board.tsx";
 
 const TodoBoard = () => {
     const {getAllCategories} = useCategory()
@@ -33,9 +34,7 @@ const TodoBoard = () => {
 
      return (
         <PrivateLayout>
-            <div className={' pt-[10px]'}>
-                {tickets.map((ticket) => ticket.title)}
-            </div>
+            <Board />
         </PrivateLayout>
     )
 }

@@ -85,4 +85,41 @@ const sendPostRequest = async (
   }
 };
 
-export { sendGetRequest, sendPostRequest}
+
+// Define the function to handle POST requests
+const sendPutRequest = async (
+    url: string,
+    apiData: ApiData
+): Promise<ApiResponse> => {
+  const API_DATA = { ...apiData };
+
+  try {
+    // Send the POST request
+    const response: AxiosResponse<ApiResponse> = await axios.put(url, API_DATA, {
+      withCredentials: true, // Include cookies with the request
+    });
+
+    // Check for unauthorized status and redirect if necessary
+    if (response.status === 401) {
+      // Redirect to login page (client-side redirect)
+      window.location.href = '/login';
+    }
+
+    // Return the response data
+    return response.data;
+  } catch (error) {
+    // Handle and throw errors as necessary
+    if (axios.isAxiosError(error)) {
+      // Handle Axios-specific errors
+      console.error('Axios error:', error.message);
+      throw new Error(`Request failed: ${error.message}`);
+    } else {
+      // Handle non-Axios errors
+      console.error('Unexpected error:', error);
+      throw new Error('An unexpected error occurred');
+    }
+  }
+};
+
+
+export { sendGetRequest, sendPostRequest,sendPutRequest}
