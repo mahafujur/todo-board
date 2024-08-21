@@ -2,9 +2,9 @@
   "name": "todo-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon --watch '../todo-board/backend/src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "start": "nodemon --watch './src/**/*.ts' --exec 'ts-node' src/index.ts",
     "clean": "del ./dist",
     "build": "npm run clean && tsc",
     "server": "npm run build && node dist/index.js"
@@ -39,6 +39,7 @@
     "@types/morgan": "^1.9.9",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
-    "mongodb-memory-server": "^9.4.1"
+    "mongodb-memory-server": "^9.4.1",
+    "del": "^6.0.0"
   }
 }
