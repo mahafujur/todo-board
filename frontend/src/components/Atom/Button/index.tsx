@@ -84,7 +84,7 @@ const Button: React.FC<ButtonProps> = ({
         extraSmall:
             'h-[24px] py-0.5 text-[12px] font-semibold leading-[220%] rounded-[6px]',
         small:
-            'h-[32px] py-0.5 text-[14px] font-semibold leading-[220%] rounded-[6px]',
+            'h-[32px] px-[6px] py-0.5 text-[14px] font-semibold leading-[220%] rounded-[6px]',
         medium:
             'h-[32px] md:h-[40px] px-6 py-0.5 text-[16px] font-semibold leading-[160%] rounded-[8px]',
         large:

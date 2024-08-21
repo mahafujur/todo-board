@@ -1,9 +1,11 @@
 import {NextRequest, NextResponse} from 'next/server';
-import {COOKIES} from "@/types/generalTypes.ts";
+import {COOKIES} from "@/utils/constants.ts";
+
 
 
 export function middleware(request: NextRequest) {
     const token: string | undefined = request.cookies.get(COOKIES.TOKEN)?.value;
+
 
     if (request.nextUrl.pathname === '/board') {
         if (!token) {

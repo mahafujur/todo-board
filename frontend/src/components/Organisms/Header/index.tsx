@@ -4,14 +4,26 @@ import React from 'react';
 import Icon from "@/Icons";
 import {Button} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
+import {useRouter} from "next/router";
+import {useAuthApi} from "@/hooks/useAuthApi.ts";
 
 const Header = () => {
-    const {ticketModalOpen, setTicketModal,setCategoryModalOpen,categoryModalOpen} = useBoardStore()
+    const router = useRouter();
+    const {signOutApiCall} = useAuthApi()
+    const {ticketModalOpen, setTicketModal, setCategoryModalOpen, categoryModalOpen} = useBoardStore()
     const handleCreateATicket = () => {
         if (!ticketModalOpen) setTicketModal(true)
     }
     const handleCreateACategory = () => {
         if (!categoryModalOpen) setCategoryModalOpen(true)
+    }
+    const handleLogout = async () => {
+        try {
+            await signOutApiCall();
+            router.push('/login');
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <div
@@ -27,7 +39,12 @@ const Header = () => {
                     Add category</Button>
 
             </div>
-            <Icon name={'avatar'} className={'w-12 h-12'}/>
+            <div className={'flex items-center gap-x-2'}>
+                <Button className={'ml-3 md:ml-6'} onClick={handleLogout} variant={'white'} size={'small'}
+                        type={'outline'}>
+                    Logout</Button>
+                <Icon name={'avatar'} className={'w-12 h-12'}/>
+            </div>
 
         </div>
     )

@@ -6,6 +6,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {useRouter} from 'next/router';
 import {useAuthApi} from "@/hooks/useAuthApi.ts";
 import {getAxiosErrorMessage} from "@/utils/helper.ts";
+import Swal from "sweetalert2";
 
 export const signUpSchema = yup.object({
     email: yup.string().required('Email is required').email('Provide correct email address'),
@@ -20,13 +21,30 @@ const useSignUpForm = () => {
     const {signUpApiCall} = useAuthApi();
     const [loading, setLoading] = useState(false);
 
-    const   onSubmitSignUp= async (data: LoginFormProps) => {
+    const onSubmitSignUp = async (data: LoginFormProps) => {
         setLoading(true);
         try {
             const res = await signUpApiCall(data.email, data.password);
-            console.log(res,'res')
             if (res?.id) {
-                router.push('/board');
+                Swal.fire({
+                    title: "Congratulations!",
+                    text: "Signup Complete",
+                    confirmButtonText: "Okay",
+                    width: 600,
+                    padding: "3em",
+                    color: "#716add",
+                    background: "#fff url(https://sweetalert2.github.io/images/trees.png)",
+                    backdrop: `rgba(0,0,123,0.4)
+                            url("https://sweetalert2.github.io/images/nyan-cat.gif")
+                            left top
+                            no-repeat
+                          `
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                         router.push('/board');
+                    }
+                });
+
             }
             setLoading(false);
         } catch (error) {
