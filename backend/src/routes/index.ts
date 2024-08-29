@@ -5,8 +5,8 @@ import express from "express";
 import {signInRouter} from "./api/signIn";
 import {signOutRouter} from "./api/signOut";
 import {signUpRouter} from "./api/signUp";
-import {categoryRouter} from "./api/categories";
 import {ticketRouter} from "./api/ticket";
+import {categoryRouter} from "./api/categories";
 
 // ===================== Configuring Express Router =====================
 const router = express.Router();

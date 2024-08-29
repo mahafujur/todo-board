@@ -3,11 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import mongoose from "mongoose";
-
 import logger from "./config/logger";
-
 import { app } from "./app";
-import cors from "cors";
 
 const startServer = async () => {
   // Check if ENV Variables exist
@@ -34,7 +31,8 @@ const startServer = async () => {
     console.error("Logger not initialized.");
     return;
   }
-  // Log the server starting info
+
+  // Log the server starting info, only if logger is not null
   logger.info("Starting-up Server.");
 
   const PORT = process.env.PORT || 4000;
@@ -43,32 +41,32 @@ const startServer = async () => {
   try {
     // ========================Connecting to Auth DB========================
     const dbConnection = await mongoose.connect(process.env.MONGO_DB_URI);
-
     console.log(
-      `Connected to ${SERVICE_NAME} MongoDB successfully with host as: ${dbConnection.connection.host} !!!!!`
+        `Connected to ${SERVICE_NAME} MongoDB successfully with host as: ${dbConnection.connection.host} !!!!!`
     );
-    // Log the DB connection info
+
+    // Log connection success only if logger is not null
     logger.info(
-      `Connected to ${SERVICE_NAME} MongoDB successfully with host as: ${dbConnection.connection.host}`
+        `Connected to ${SERVICE_NAME} MongoDB successfully with host as: ${dbConnection.connection.host}`
     );
   } catch (err) {
     console.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
-    // Save the error log
-    logger.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
-  }
 
-  const corsOptions = {
-    origin: process.env.FRONTEND_URL, // Set this to your frontend URL
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  };
-// Apply CORS middleware
-  app.use(cors(corsOptions));
+    // Log error only if logger is not null
+    if (logger) {
+      logger.error(`Error Connecting to ${SERVICE_NAME} DB:`, err);
+    }
+  }
 
   // ========================Starting Auth Server========================
   app.listen(PORT, () => {
     console.log(`${SERVICE_NAME} listening on PORT: ${PORT} !!!!!`);
-    // Log the successful server starting info
-    logger!.info(`Successfully Started ${SERVICE_NAME} on PORT: ${PORT}`);
+
+    // Log server start only if logger is not null
+    if (logger) {
+      logger.info(`Successfully Started ${SERVICE_NAME} on PORT: ${PORT}`);
+    }
+
     console.info(`API Docs available at http://localhost:${PORT}/api-docs`);
     console.info(`API Docs JSON available at http://localhost:${PORT}/api-docs.json`);
   });

@@ -21,6 +21,7 @@ const generateToken = (
         secure:  process.env.NODE_ENV === 'production',// Value will be false in the development environment and hence http will be allowed in development
         sameSite: "strict" as const,
         maxAge: 30 * 24 * 60 * 60 * 1000, // Sets expiry of cookie to 30 days
+        path: '/', // Ensure path is set
     };
 
     res.cookie("token", jwtToken, cookieOptions);

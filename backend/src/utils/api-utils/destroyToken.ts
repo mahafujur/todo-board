@@ -5,13 +5,15 @@ const destroyToken = (res: Response) => {
   const jwtToken = "";
 
   const cookieOptions = {
-    httpOnly: true, // To prevent cookies from being accessed by client-side scripts
-    secure: process.env.NODE_ENV !== "development", // Value will be false in the development environment and hence http will be allowed in development
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
     sameSite: "strict" as const,
     maxAge: 0, // Set maxAge to 0 milliseconds to expire the cookie immediately
+    path: '/', // Ensure path is set
   };
 
-  res.cookie("jwt", jwtToken, cookieOptions);
+
+  res.cookie("token", jwtToken, cookieOptions);
 };
 
 export default destroyToken;

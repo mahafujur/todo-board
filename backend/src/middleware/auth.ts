@@ -1,10 +1,9 @@
-import { NextFunction, Response } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/user';
+import {User} from '../models/user';
 import mongoose from 'mongoose';
-import { AuthRequest } from '../types/auth'; // Ensure correct casing in import
 
-const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
+const auth = async (req: Request, res: Response, next: NextFunction) => {
     // Read token from cookies
     const token = req.cookies.token;
 
@@ -20,22 +19,21 @@ const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
                     id: (userDoc._id as mongoose.Types.ObjectId).toString(), // Type assertion to ObjectId
                     email: userDoc.email,
                 };
+                next();
             } else {
-                return res.status(401).json({ message: 'User not found' });
+                return res.status(401).json({message: 'User not found'});
             }
-
-            next();
         } catch (err) {
             if (err instanceof Error) {
                 console.error(err.message);
-                res.status(401).json({ message: 'Not authorized, token failed' });
+                res.status(401).json({message: 'Not authorized, token failed'});
             } else {
                 console.error('Unexpected error', err);
                 res.status(500).send('Server error');
             }
         }
     } else {
-        res.status(401).json({ message: 'Not authorized, no token' });
+        res.status(401).json({message: 'Not authorized, no token'});
     }
 };
 

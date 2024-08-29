@@ -6,12 +6,12 @@ interface UserAttrs {
   password: string;
 }
 
-interface UserDoc extends Document {
+export interface UserDoc extends Document {
   email: string;
   password: string;
 }
 
-interface UserModel extends Model<UserDoc> {
+ interface UserModel extends Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
@@ -39,12 +39,13 @@ const userSchema = new mongoose.Schema<UserDoc>(
 );
 
 userSchema.pre('save', async function (done) {
-  if (this.isModified('password')) {
-    const newHashedPassword = await Password.toHash(this.get('password'));
-    this.set('password', newHashedPassword);
-  }
-  done();
+    if (this.isModified('password')) {
+        const newHashedPassword = await Password.toHash(this.get('password'));
+        this.set('password', newHashedPassword);
+    }
+    done();
 });
+
 
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);

@@ -32,7 +32,7 @@ const LoginForm: React.FC = () => {
                             onChange={({target: {value}}) => {
                                 setValue('email' as FieldPath<LoginFormProps>, value as FieldPathValue<LoginFormProps, 'email'>);
                             }}
-                            autoComplete="on"
+                            autoComplete="off"
                         />
                     </FormControl>
                 </div>
@@ -53,7 +53,7 @@ const LoginForm: React.FC = () => {
                             onChange={({target: {value}}) => {
                                 setValue('password' as FieldPath<LoginFormProps>, value as FieldPathValue<LoginFormProps, 'email'>);
                             }}
-                            autoComplete="on"
+                            autoComplete="off"
                             type="password"
                         />
                     </FormControl>

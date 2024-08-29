@@ -7,8 +7,8 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types", "src/types"] // Ensure this includes your custom types
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts"], // Ensure this includes your type declaration files
   "exclude": ["node_modules"]
 }

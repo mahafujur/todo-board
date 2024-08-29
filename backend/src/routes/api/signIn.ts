@@ -1,9 +1,8 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
-import { User } from '../../models/user';
-import { Password } from '../../utils/api-utils/password';
+import passport from '../../utils/api-utils/passport-config';
+import { validateRequest } from '../../utils/api-utils/validateRequest';
 import generateToken from '../../utils/api-utils/generateToken';
-import { validateRequest } from '../../utils/api-utils/validateRequest'; // Custom validation function
 
 const router = express.Router();
 
@@ -14,24 +13,19 @@ router.post(
         body('password').trim().notEmpty().withMessage('A password must be provided.'),
     ],
     validateRequest,
-    async (req: Request, res: Response) => {
-        const { email, password } = req.body;
+    (req: Request, res: Response, next: NextFunction) => {
+        passport.authenticate('local', (err: Error | null, user: any, info: any) => {
+            if (err) {
+                return res.status(500).send({ error: 'Internal server error.' });
+            }
 
-        const existingUser = await User.findOne({ email: email });
+            if (!user) {
+                return res.status(400).send({ error: 'Invalid credentials.' });
+            }
 
-        if (!existingUser) {
-            return res.status(400).send({ error: 'User not found' });
-        }
-
-        const passwordMatch = await Password.compare(existingUser.password, password);
-
-        if (!passwordMatch) {
-            return res.status(400).send({ error: 'Password did not match' });
-        }
-
-        generateToken(res, existingUser.id, existingUser.email);
-
-        res.status(200).send({ user: existingUser });
+            generateToken(res, user.id, user.email);
+            res.status(200).send({ user });
+        })(req, res, next);
     }
 );
 
