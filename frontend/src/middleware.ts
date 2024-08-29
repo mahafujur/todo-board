@@ -4,11 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 
 export function middleware(request: NextRequest) {
-    const token: string | undefined = request.cookies.get(COOKIES.TOKEN)?.value;
-    console.log(request.cookies,'token..')
-    const decripted = token ? jwtDecode(token) : null
-    console.log(decripted,'dedc')
-
+    const token: boolean= request.cookies.has(COOKIES.TOKEN);
     if (request.nextUrl.pathname === '/board') {
         if (!token) {
             const url = request.nextUrl.clone();

@@ -15,6 +15,7 @@ router.post(
     validateRequest,
     (req: Request, res: Response, next: NextFunction) => {
         passport.authenticate('local', (err: Error | null, user: any, info: any) => {
+           console.log(err,'erro>>>>>>>>>>>>>')
             if (err) {
                 return res.status(500).send({ error: 'Internal server error.' });
             }

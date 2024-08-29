@@ -18,7 +18,7 @@ app.set('trust proxy', true);
 
 // Updated CORS configuration
 const corsOptions = {
-    origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+    origin: '*', // Replace with your frontend URL
     credentials: true,  // Allow credentials (cookies, authorization headers, etc.)
 };
 
@@ -34,7 +34,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+            secure: false, // Secure cookies in production
             httpOnly: true,
             sameSite: 'none',  // SameSite set to 'none' for cross-origin
         },
