@@ -7,6 +7,8 @@ import {useRouter} from 'next/router';
 import {useAuthApi} from "@/hooks/useAuthApi.ts";
 import {getAxiosErrorMessage} from "@/utils/helper.ts";
 import Swal from "sweetalert2";
+import {setACookie} from "@/utils/cookies.ts";
+import {COOKIES} from "@/utils/constants.ts";
 
 export const signUpSchema = yup.object({
     email: yup.string().required('Email is required').email('Provide correct email address'),
@@ -25,7 +27,8 @@ const useSignUpForm = () => {
         setLoading(true);
         try {
             const res = await signUpApiCall(data.email, data.password);
-            if (res?.id) {
+            if (res?.token) {
+                setACookie(COOKIES.TOKEN, res.token)
                 Swal.fire({
                     title: "Congratulations!",
                     text: "Signup Complete",

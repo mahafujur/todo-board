@@ -2,9 +2,9 @@ import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 import { jwtDecode } from 'jwt-decode';
 import { COOKIES } from '@/utils/constants.ts';
 
-const getACookie = (key: string) => {
+const getACookie = (key: string,decoded=false) => {
     const theCookie = getCookie(key);
-    if (key === COOKIES.TOKEN && theCookie) {
+    if (decoded && theCookie ) {
         return jwtDecode(theCookie as string); // Ensure type assertion
     }
     return theCookie;

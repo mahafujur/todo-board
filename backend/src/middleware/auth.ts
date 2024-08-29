@@ -1,13 +1,15 @@
-import {NextFunction, Request, Response} from 'express';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import {User} from '../models/user';
+import { User } from '../models/user';
 import mongoose from 'mongoose';
 
 const auth = async (req: Request, res: Response, next: NextFunction) => {
-    // Read token from cookies
-    const token = req.cookies.token;
+    // Read the token from the Authorization header
+    const authHeader = req.headers.authorization;
 
-    if (token) {
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.split(' ')[1]; // Extract the token from the Bearer string
+
         try {
             const decoded = jwt.verify(token, process.env.JWT_KEY as string) as jwt.JwtPayload;
 
@@ -21,19 +23,19 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
                 };
                 next();
             } else {
-                return res.status(401).json({message: 'User not found'});
+                return res.status(401).json({ message: 'User not found' });
             }
         } catch (err) {
             if (err instanceof Error) {
                 console.error(err.message);
-                res.status(401).json({message: 'Not authorized, token failed'});
+                res.status(401).json({ message: 'Not authorized, token failed' });
             } else {
                 console.error('Unexpected error', err);
                 res.status(500).send('Server error');
             }
         }
     } else {
-        res.status(401).json({message: 'Not authorized, no token'});
+        res.status(401).json({ message: 'Not authorized, no token' });
     }
 };
 

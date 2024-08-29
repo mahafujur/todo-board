@@ -16,10 +16,12 @@ const app = express();
 app.use(morganLogger());
 app.set('trust proxy', true);
 
+// Updated CORS configuration
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
+    origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+    credentials: true,  // Allow credentials (cookies, authorization headers, etc.)
 };
+
 app.use(cors(corsOptions));
 
 app.use(json());
@@ -28,12 +30,13 @@ app.use(cookieParser());
 // Initialize session middleware
 app.use(
     session({
-        secret: process.env.SESSION_SECRET || 'session_secret' , // Use environment variable or default secret key
+        secret: process.env.SESSION_SECRET || 'session_secret', // Use environment variable or default secret key
         resave: false,
         saveUninitialized: false,
         cookie: {
             secure: process.env.NODE_ENV === 'production', // Secure cookies in production
             httpOnly: true,
+            sameSite: 'none',  // SameSite set to 'none' for cross-origin
         },
     })
 );

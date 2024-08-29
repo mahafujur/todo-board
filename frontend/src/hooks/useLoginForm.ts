@@ -6,6 +6,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {useRouter} from 'next/router';
 import {useAuthApi} from "@/hooks/useAuthApi.ts";
 import {getAxiosErrorMessage} from "@/utils/helper.ts";
+import {setACookie} from "@/utils/cookies.ts";
+import {COOKIES} from "@/utils/constants.ts";
 
 export const loginSchema = yup.object({
     email: yup.string().required('Email is required').email('Provide correct email address'),
@@ -24,7 +26,8 @@ const useLoginForm = () => {
         setLoading(true);
         try {
             const res = await signInApiCall(data.email, data.password);
-            if (res?.user?.id) {
+            if (res?.token) {
+                setACookie(COOKIES.TOKEN, res.token)
                 router.push('/board');
             }
             setLoading(false);

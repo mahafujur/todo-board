@@ -6,10 +6,11 @@ import {Button} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {useRouter} from "next/router";
 import {useAuthApi} from "@/hooks/useAuthApi.ts";
+import {removeACookie} from "@/utils/cookies.ts";
+import {COOKIES} from "@/utils/constants.ts";
 
 const Header = () => {
     const router = useRouter();
-    const {signOutApiCall} = useAuthApi()
     const {ticketModalOpen, setTicketModal, setCategoryModalOpen, categoryModalOpen} = useBoardStore()
     const handleCreateATicket = () => {
         if (!ticketModalOpen) setTicketModal(true)
@@ -19,7 +20,8 @@ const Header = () => {
     }
     const handleLogout = async () => {
         try {
-            await signOutApiCall();
+            removeACookie(COOKIES.TOKEN)
+            // await signOutApiCall();
             router.push('/login');
         } catch (error) {
             console.log(error)

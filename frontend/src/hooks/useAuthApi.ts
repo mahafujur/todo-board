@@ -1,5 +1,5 @@
 import {sendPostRequest} from '@/lib/ApiHandler';
-import {API_SignOut_Url, Api_Signup_Url, AuthLoginUrl} from '@/utils/apiAccessUrls';
+import {Api_Signup_Url, AuthLoginUrl} from '@/utils/apiAccessUrls';
 
 export const useAuthApi = () => {
     const signInApiCall = (email: string, secret: string) => {
@@ -16,9 +16,6 @@ export const useAuthApi = () => {
         });
 
     };
-    const signOutApiCall = () => {
-        return sendPostRequest(API_SignOut_Url,{});
-    };
 
-    return {signInApiCall,signUpApiCall,signOutApiCall };
+    return {signInApiCall, signUpApiCall};
 };
