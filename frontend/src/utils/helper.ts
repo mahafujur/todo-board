@@ -15,8 +15,14 @@ export const getAxiosErrorMessage = (error: any): string => {
 };
 
 
-export function checkExpiryDate(date: string | Date): { isToday: boolean; isExpired: boolean } {
+export function checkExpiryDate(date?: string | Date): { isToday: boolean; isExpired: boolean } {
     const today = new Date();
+
+    // Handle undefined or invalid dates
+    if (!date) {
+        return { isToday: false, isExpired: false };
+    }
+
     const inputDate = new Date(date);
 
     // Check if the inputDate is valid

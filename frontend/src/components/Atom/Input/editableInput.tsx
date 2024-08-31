@@ -58,14 +58,14 @@ const EditableInput: React.FC<EditableInputProps> = ({
                     autoFocus
                 />
             ) : (
-                <div className={'w-full flex items-center justify-between cursor-pointer'}  onClick={handleTextClick}>
+                <div className={'w-full flex items-center justify-between cursor-pointer'} onClick={handleTextClick}>
                     <h2
-                    className={`  ${textStyle}`}
-                >
-                    {inputValue || placeholder}
-                </h2>
+                        className={`${textStyle}`}
+                    >
+                        {inputValue || placeholder}
+                    </h2>
 
-                    <Icon name={'editIcon'} className={'bg-gray100 w-[18px] h-[18px] '} />
+                    <Icon name={'editIcon'} className={'bg-gray100 w-[18px] h-[18px] '}/>
                 </div>
             )}
         </div>

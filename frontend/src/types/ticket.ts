@@ -1,9 +1,10 @@
 export interface Ticket {
-    id: string;
+    id?: string;
     title: string;
-    description: string;
-    expiryDate: string;
-    category: string;
+    description?: string;
+    expiryDate?: string;
+    category?: string;
+    categoryId?: string;
 }
 
 export interface Category {

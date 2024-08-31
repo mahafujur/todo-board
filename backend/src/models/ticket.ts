@@ -11,8 +11,8 @@ export interface ITicket extends Document {
 
 const TicketSchema: Schema<ITicket> = new mongoose.Schema({
     title: { type: String, required: true },
-    description: { type: String, required: true },
-    expiryDate: { type: Date, required: true },
+    description: { type: String, required: false },
+    expiryDate: { type: Date, required: false },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     status: { type: String },
