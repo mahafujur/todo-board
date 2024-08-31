@@ -3,32 +3,58 @@ import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import SEO from "@/components/Templates/SEO";
 import {isLoggedIn} from "@/utils/useManager";
-import {Button} from "@/components/Atom";
+import {Button, Typography} from "@/components/Atom";
+import useBoardStore from "@/store/useBoardStore.ts";
+import Modal from "@/components/Organisms/Modal";
+import CreateWorkspaceForm from "@/components/Organisms/Forms/CreateWorkspaceForm.tsx";
 import {useWorkspace} from "@/hooks/useWorkspace.ts";
 
 const LoginButtonsCard = () => {
     const loggedIn = isLoggedIn()
-    const {createAWorkspace} = useWorkspace()
+    const {getMyWorkspaces} = useWorkspace()
+    const {setWorkSpaceModalOpen, workspaces, workSpaceModalOpen, setWorkspaces} = useBoardStore()
 
     const handleCreateWorkspace = () => {
-        createWorkspace().
+        setWorkSpaceModalOpen(true)
     }
+
+    useEffect(() => {
+        if (loggedIn) getMyWorkspaces().then((response) => setWorkspaces(response?.map((wk) => ({
+            name: wk.name,
+            id: wk._id,
+            users: wk.users
+        })))).catch((er) => console.error(er))
+    }, [loggedIn]);
 
     if (loggedIn) {
         return (
             <div className={'flex flex-col'}>
-                <Button variant={'blue'} size={'large'} type={'primary'} onClick={handleCreateWorkspace}>Create a
-                    workspace</Button>
-                <br/>
+                <ul className={'flex gap-3 '}>
+                    {workspaces?.length ? workspaces?.map(({name, id}, index) => {
 
-                <ul>
-                    <li>
-                        <Link href="/board"
-                              className="w-auto mx-auto text-center min-w-[200px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-4   rounded-lg shadow-lg transition-colors duration-300">Visit
-                            Your Board</Link>
-                    </li>
+                        return <li key={index} className={' mt-4'}>
+                            <Link href={`/board/${id}`}
+                                  className="bg-white p-5  border shadow-md rounded-md hover:shadow-2xl hover:bg-gray100 w-auto text-left text-secondary600 min-h-[200px] ">-> Workspace
+                                {index+1} : {name}</Link>
+                        </li>
+                    }) : ''}
                 </ul>
 
+                <div className={'flex flex-col gap-y-1 mt-7'}>
+                    <Typography tag={'h4'} variant={{
+                        web: "Title-16-Semibold",
+                        mobile: 'Title-16-Semibold'
+                    }}>Create your own workspace,if you don't have any!</Typography>
+                    <Button fullWidth={false} variant={'blue'} size={'medium'} type={'outline'}
+                            onClick={handleCreateWorkspace}>+ Create a
+                        workspace</Button>
+                </div>
+
+
+                <Modal title={'Build your workspace'} open={workSpaceModalOpen}
+                       onCancel={() => setWorkSpaceModalOpen(false)}>
+                    <CreateWorkspaceForm/>
+                </Modal>
 
             </div>)
     }
@@ -62,8 +88,8 @@ const Home: React.FC = () => {
             </Head>
 
             <main className="max-w-lg p-6 bg-white rounded-lg shadow-lg">
-                <h1 className="text-3xl font-semibold text-gray-800 mb-6">Welcome to Todo Board</h1>
-                <p className="text-gray-600 mb-8">Organize your tasks efficiently with Todo Board.</p>
+                <h1 className="text-3xl font-semibold text-gray-800 mb-4">Welcome to Todo Board</h1>
+                <p className="text-gray-600 mb-4">Organize your tasks efficiently with Todo Board.</p>
 
                 {!loader && <LoginButtonsCard/>}
             </main>

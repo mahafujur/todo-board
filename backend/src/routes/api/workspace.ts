@@ -4,17 +4,17 @@ import auth from '../../middleware/auth';
 import Workspace from '../../models/workspace';
 import {body} from 'express-validator';
 import {validateRequest} from '../../utils/api-utils/validateRequest';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
-
+// Create a new workspace
 router.post(
     '/',
     auth,
     [
         body('name').trim().notEmpty().withMessage('Workspace name is required.'),
-        validateRequest
+        validateRequest,
     ],
     async (req: Request, res: Response) => {
         const {name} = req.body;
@@ -24,7 +24,10 @@ router.post(
                 users: [req.user!.id], // Add the creator as a user
             });
             await workspace.save();
-            res.status(201).json(workspace);
+
+            // Populate the users field to include user details
+            const populatedWorkspace = await Workspace.findById(workspace._id).populate('users', 'name email id');
+            res.status(201).json(populatedWorkspace);
         } catch (err) {
             console.error('Error:', err instanceof Error ? err.message : 'Unexpected error');
             res.status(500).send('Server error');
@@ -32,10 +35,11 @@ router.post(
     }
 );
 
-
+// Get all workspaces for the authenticated user, including user details
 router.get('/', auth, async (req: Request, res: Response) => {
     try {
-        const workspaces = await Workspace.find({users: req.user!.id});
+        const workspaces = await Workspace.find({users: req.user!.id})
+            .populate('users', 'name email id'); // Populate users and include only name and email
         res.json(workspaces);
     } catch (err) {
         console.error('Error:', err instanceof Error ? err.message : 'Unexpected error');
@@ -43,7 +47,7 @@ router.get('/', auth, async (req: Request, res: Response) => {
     }
 });
 
-
+// Add a user to a workspace
 router.put('/add-user/:workspaceId', auth, async (req: Request, res: Response) => {
     const {workspaceId} = req.params;
     const {userId} = req.body;
@@ -66,12 +70,16 @@ router.put('/add-user/:workspaceId', auth, async (req: Request, res: Response) =
         workspace.users.push(userId);
         await workspace.save();
 
-        res.status(200).json(workspace);
+        // Populate the updated workspace with user details
+        const updatedWorkspace = await Workspace.findById(workspaceId).populate('users', 'name email id');
+        res.status(200).json(updatedWorkspace);
     } catch (err) {
         console.error('Error:', err instanceof Error ? err.message : 'Unexpected error');
         res.status(500).send('Server error');
     }
 });
+
+// Remove a user from a workspace
 router.put('/remove-user/:workspaceId', auth, async (req: Request, res: Response) => {
     const {workspaceId} = req.params;
     const {userId} = req.body;
@@ -94,7 +102,9 @@ router.put('/remove-user/:workspaceId', auth, async (req: Request, res: Response
         workspace.users = workspace.users.filter(id => id.toString() !== userId);
         await workspace.save();
 
-        res.status(200).json(workspace);
+        // Populate the updated workspace with user details
+        const updatedWorkspace = await Workspace.findById(workspaceId).populate('users', 'name email id');
+        res.status(200).json(updatedWorkspace);
     } catch (err) {
         console.error('Error:', err instanceof Error ? err.message : 'Unexpected error');
         res.status(500).send('Server error');

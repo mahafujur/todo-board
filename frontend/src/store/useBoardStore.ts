@@ -1,5 +1,6 @@
 import {create} from 'zustand';
 import {Category, Ticket} from "@/types/ticket.ts";
+import {IWorkspace} from "@/types/workspace.ts";
 
 interface BoardStore {
     categories: Category[];
@@ -15,6 +16,8 @@ interface BoardStore {
     moveTicket: (ticketId: string, targetCategoryId: string) => void;
     workSpaceModalOpen: boolean;
     setWorkSpaceModalOpen: (workSpaceModalOpen: boolean) => void;
+    workspaces: IWorkspace[],
+    setWorkspaces: (workspaces: IWorkspace []) => void;
 }
 
 const useBoardStore = create<BoardStore>((set) => ({
@@ -69,6 +72,9 @@ const useBoardStore = create<BoardStore>((set) => ({
     })),
     workSpaceModalOpen: false,
     setWorkSpaceModalOpen: (open) => set({workSpaceModalOpen: open}),
+    workspaces: [],
+    setWorkspaces: (workspaces) =>
+        set({workspaces: workspaces}),
 
 }));
 export default useBoardStore;

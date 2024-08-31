@@ -1,17 +1,19 @@
 import Image from "next/image";
 import Logo from '@/assets/logo.png'
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from "@/Icons";
 import {Button} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {useRouter} from "next/router";
-import {useAuthApi} from "@/hooks/useAuthApi.ts";
 import {removeACookie} from "@/utils/cookies.ts";
 import {COOKIES} from "@/utils/constants.ts";
+import {useWorkspace} from "@/hooks/useWorkspace.ts";
 
 const Header = () => {
     const router = useRouter();
-    const {ticketModalOpen, setTicketModal, setCategoryModalOpen, categoryModalOpen} = useBoardStore()
+    const {ticketModalOpen, setTicketModal, setCategoryModalOpen, categoryModalOpen, setWorkspaces} = useBoardStore()
+    const {getMyWorkspaces} = useWorkspace()
+
     const handleCreateATicket = () => {
         if (!ticketModalOpen) setTicketModal(true)
     }
@@ -27,6 +29,16 @@ const Header = () => {
             console.log(error)
         }
     }
+
+
+    useEffect(() => {
+        getMyWorkspaces().then((response) => setWorkspaces(response?.map((wk) => ({
+            name: wk.name,
+            id: wk._id,
+            users: wk.users
+        })))).catch((er) => console.error(er))
+    }, []);
+
     return (
         <div
             className={'px-4 fixed top-0 left-0 right-0 z-10 overflow-hidden md:px-6 shadow-xl bg-primary50 h-[80px] flex justify-between flex-shrink w-full items-center'}>
