@@ -7,7 +7,7 @@ import Category from '../../models/category';
 const router = express.Router();
 
 router.post('/', auth, async (req: Request, res: Response) => {
-    const {title, description, expiryDate, categoryId} = req.body;
+    const {title, description, expiryDate, categoryId, workspaceId} = req.body;
     try {
         const existingCategory = await Category.findById(categoryId);
         if (!existingCategory) {
@@ -19,7 +19,8 @@ router.post('/', auth, async (req: Request, res: Response) => {
             description,
             expiryDate,
             category: categoryId,
-            user: req.user?.id as string, // Ensure req.user?.id is correctly typed
+            user: req.user?.id as string,
+            workspace: workspaceId,
         });
         await ticket.save();
 
@@ -36,7 +37,7 @@ router.post('/', auth, async (req: Request, res: Response) => {
 });
 
 router.put('/:id', auth, async (req: Request, res: Response) => {
-    const {title, description, expiryDate, categoryId} = req.body;
+    const {title, description, expiryDate, categoryId, workspaceId} = req.body;
     const {id} = req.params;
 
     try {
@@ -46,7 +47,7 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
             return res.status(404).json({message: 'Ticket not found'});
         }
 
-        if (ticket?.user?.toString() !== req.user?.id as string) {
+        if (ticket.user.toString() !== req.user?.id as string) {
             return res.status(403).json({message: 'User not authorized to update this ticket'});
         }
 
@@ -60,6 +61,7 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
             }
             ticket.category = categoryId;
         }
+        if (workspaceId) ticket.workspace = workspaceId;
 
         await ticket.save();
 
@@ -75,17 +77,17 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
     }
 });
 
-router.get('/', auth, async (req: Request, res: Response) => {
+router.get('/:id', auth, async (req: Request, res: Response) => {
     try {
-        const tickets = await Ticket.find({user: req.user?.id as string}).populate('category');
+        const {id: workspaceId} = req.params;
+        const tickets = await Ticket.find({user: req.user?.id as string, workspace: workspaceId}).populate('category');
         res.json(tickets);
     } catch (err) {
         if (err instanceof Error) {
             console.error(err.message);
             res.status(500).send('Server error');
         } else {
-            console.error('Unexpected error', err);
-            res.status(500).send('Server error');
+             res.status(500).send('Server error');
         }
     }
 });

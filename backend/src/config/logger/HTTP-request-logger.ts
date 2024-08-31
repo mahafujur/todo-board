@@ -8,7 +8,7 @@ const morganLogger = () => {
       // Log to Winston
       logger!.info(message.trim());
       // Log to console
-      console.log(message.trim());
+      // console.log(message.trim());
     },
   };
 

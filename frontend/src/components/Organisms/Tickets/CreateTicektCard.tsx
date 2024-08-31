@@ -3,6 +3,7 @@ import {useTicket} from "@/hooks/useTicket.ts";
 import {Button} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {Ticket} from "@/types/ticket.ts";
+import {useRouter} from "next/router";
 
 interface CreateTicketCardProps {
     id: string;
@@ -11,10 +12,11 @@ interface CreateTicketCardProps {
 
 const CreateTicketCard: FC<CreateTicketCardProps> = ({id, onCancel}) => {
     const {createATicket} = useTicket();
+    const router = useRouter();
     const {addTicket} = useBoardStore();
     const [ticketTitle, setTicketTitle] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+    const workspaceId = router.query.id;
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.focus();
@@ -23,7 +25,7 @@ const CreateTicketCard: FC<CreateTicketCardProps> = ({id, onCancel}) => {
 
     const handleSave = () => {
         if (ticketTitle.trim()) {
-            createATicket({title: ticketTitle, categoryId: id} as any).then((res) => {
+            createATicket({title: ticketTitle, categoryId: id, workspaceId: workspaceId} as any).then((res) => {
                 addTicket({
                     id: res._id,
                     title: res.title,

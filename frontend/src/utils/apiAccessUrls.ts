@@ -7,3 +7,8 @@ export const Api_Categories_Url = `${ApiBaseUrl}` + '/api/v1/categories';
 
 export const Api_Ticket_Url = `${ApiBaseUrl}` + '/api/v1/tickets';
 
+export const Api_Workspace_Url = `${ApiBaseUrl}` + '/api/v1/workspace';
+
+
+export const Api_Theme_Url = `${ApiBaseUrl}` + '/api/v1/theme';
+

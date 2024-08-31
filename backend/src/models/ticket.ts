@@ -7,6 +7,7 @@ export interface ITicket extends Document {
     category: Schema.Types.ObjectId;
     user: Schema.Types.ObjectId;
     status?: string;
+    workspace: Schema.Types.ObjectId;
 }
 
 const TicketSchema: Schema<ITicket> = new mongoose.Schema({
@@ -16,6 +17,7 @@ const TicketSchema: Schema<ITicket> = new mongoose.Schema({
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     status: { type: String },
+    workspace: { type: mongoose.Schema.Types.ObjectId, ref: 'Workspace', required: true },
 });
 
 const Ticket: Model<ITicket> = mongoose.model('Ticket', TicketSchema);

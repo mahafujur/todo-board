@@ -17,7 +17,7 @@ const LoginForm: React.FC = () => {
     return (
         <div className="max-w-md w-full mx-auto">
 
-            <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-white  rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
                     <FormControl
                         required={true}

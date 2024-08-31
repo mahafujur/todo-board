@@ -9,6 +9,7 @@ interface EditableInputProps {
     textStyle?: string;
     background?: string;
     focusStyle?: string;
+    hideEditIcon?:boolean;
 }
 
 const EditableInput: React.FC<EditableInputProps> = ({
@@ -18,7 +19,8 @@ const EditableInput: React.FC<EditableInputProps> = ({
                                                          inputStyle = '',
                                                          textStyle = '',
                                                          background = '',
-                                                         focusStyle = ''
+                                                         focusStyle = '',
+                                                         hideEditIcon=false
                                                      }) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>(initialValue);
@@ -45,7 +47,7 @@ const EditableInput: React.FC<EditableInputProps> = ({
     };
 
     return (
-        <div className={`w-full flex gap-x-1 mb-2 items-center justify-between ${background}`}>
+        <div className={`w-full flex gap-x-1  items-center justify-between ${background}`}>
             {isEditing ? (
                 <input
                     type="text"
@@ -53,7 +55,7 @@ const EditableInput: React.FC<EditableInputProps> = ({
                     onChange={handleInputChange}
                     onBlur={handleSave}
                     onKeyPress={handleKeyPress}
-                    className={`border border-gray-300 rounded px-2 py-1 ${inputStyle} ${isEditing ? focusStyle : ''}`}
+                    className={`border border-gray-300 rounded w-full px-2 py-1 ${inputStyle} ${isEditing ? focusStyle : ''}`}
                     placeholder={placeholder}
                     autoFocus
                 />
@@ -65,7 +67,7 @@ const EditableInput: React.FC<EditableInputProps> = ({
                         {inputValue || placeholder}
                     </h2>
 
-                    <Icon name={'editIcon'} className={'bg-gray100 w-[18px] h-[18px] '}/>
+                    {hideEditIcon? null : <Icon name={'editIcon'} className={' w-[18px] h-[18px] '}/> }
                 </div>
             )}
         </div>

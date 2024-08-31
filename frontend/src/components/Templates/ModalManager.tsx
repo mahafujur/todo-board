@@ -4,7 +4,12 @@ import CreateTicketForm from "@/components/Organisms/Forms/CreateTicketForm.tsx"
 import {CreateCategoryForm} from "@/components/Organisms/Forms";
 
 const ModalManager = () => {
-    const {ticketModalOpen, setTicketModal, categoryModalOpen, setCategoryModalOpen} = useBoardStore()
+    const {
+        ticketModalOpen,
+        setTicketModal,
+        categoryModalOpen,
+        setCategoryModalOpen,
+    } = useBoardStore()
 
     if (ticketModalOpen)
         return (
@@ -15,7 +20,7 @@ const ModalManager = () => {
 
     if (categoryModalOpen)
         return (
-            <Modal  open={categoryModalOpen} onCancel={() => setCategoryModalOpen(false)}>
+            <Modal open={categoryModalOpen} onCancel={() => setCategoryModalOpen(false)}>
                 <CreateCategoryForm/>
             </Modal>
         )

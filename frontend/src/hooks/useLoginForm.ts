@@ -28,7 +28,7 @@ const useLoginForm = () => {
             const res = await signInApiCall(data.email, data.password);
             if (res?.token) {
                 setACookie(COOKIES.TOKEN, res.token)
-                router.push('/board');
+                router.push('/');
             }
             setLoading(false);
         } catch (error) {

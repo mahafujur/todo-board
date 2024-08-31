@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import {Button, Input, Typography} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {FormControl} from "@/components/Molecules/Form";
-import {useCategory} from "@/hooks/useCategory.ts";
+import {useWorkspace} from "@/hooks/useWorkspace.ts";
 import {useRouter} from "next/router";
 
 
@@ -13,19 +13,19 @@ const schema = yup.object().shape({
     title: yup.string().required('Title is required'),
 });
 
-type FormType={
-    title:string;
+type FormType = {
+    title: string;
 }
+
 interface CategoryCreateModalProps {
     title?: string
 }
 
-const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
-    const router=useRouter();
-    const workspaceId=router.query.id;
-    const { setCategoryModalOpen, updateCategory} = useBoardStore();
+const CreateWorkspaceForm: React.FC<CategoryCreateModalProps> = ({title}) => {
+    const {setWorkSpaceModalOpen, setWorkspaces} = useBoardStore();
     const [loader, setLoader] = useState(false)
-    const {createACategory} = useCategory()
+    const {createAWorkspace} = useWorkspace()
+    const router=useRouter();
     const {
         handleSubmit,
         reset,
@@ -36,18 +36,15 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
         defaultValues: {},
     });
 
-    const onSubmit = (data:FormType) => {
+    const onSubmit = (data: FormType) => {
         const {title} = data || {};
         setLoader(true)
-        createACategory(title,workspaceId as string).then((response) => {
-                console.log(response)
-                const newCategory = {id: response._id as string, name: response.name as string}
-                updateCategory(newCategory)
+        createAWorkspace(title).then((response) => {
+             router.push('/workspace/'+response._id)
             }
         ).catch((error) => console.log(error?.response?.status)).finally(() => {
-            setCategoryModalOpen(false)
-            setLoader(false)
-        });
+            setWorkSpaceModalOpen(false)
+        }).finally(()=> setLoader(false));
         reset();
     };
 
@@ -75,7 +72,7 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
                     >
                         <Input
                             id="title"
-                            placeholder="Your category"
+                            placeholder="Your workspace"
                             onChange={({target: {value}}) => {
                                 setValue('title', value);
                             }}
@@ -86,7 +83,7 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
                 </div>
                 <div className="flex justify-end my-5">
                     <Button disabled={loader} variant={'pink'} size={'medium'}
-                            onClick={() => setCategoryModalOpen(false)} className="mr-2"
+                            onClick={() => setWorkSpaceModalOpen(false)} className="mr-2"
                             type={'primary'}>
                         Cancel
                     </Button>
@@ -99,4 +96,4 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
     );
 };
 
-export default CreateTicketForm;
+export default CreateWorkspaceForm;

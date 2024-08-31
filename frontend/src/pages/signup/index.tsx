@@ -1,12 +1,11 @@
 import SEO from "@/components/Templates/SEO";
 import React from "react";
-import {LoginForm} from "@/components/Organisms/Forms";
 import SignUpForm from "@/components/Organisms/Forms/SignUpForm.tsx";
 
 
 const Signup = () => {
 
-    return(
+    return (
         <div className={'bg-white min-h-screen'}>
             <SEO
                 title="Signup | Todo App"
