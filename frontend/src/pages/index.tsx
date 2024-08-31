@@ -9,9 +9,10 @@ import Modal from "@/components/Organisms/Modal";
 import CreateWorkspaceForm from "@/components/Organisms/Forms/CreateWorkspaceForm.tsx";
 import {useWorkspace} from "@/hooks/useWorkspace.ts";
 import {useRouter} from "next/router";
+import {IWorkspace} from "@/types/workspace.ts";
 
 const Workspaces = () => {
-    const router=useRouter();
+    const router = useRouter();
     const loggedIn = isLoggedIn()
     const {getMyWorkspaces} = useWorkspace()
     const {setWorkSpaceModalOpen, workspaces, workSpaceModalOpen, setWorkspaces} = useBoardStore()
@@ -21,7 +22,7 @@ const Workspaces = () => {
     }
 
     useEffect(() => {
-        if (loggedIn) getMyWorkspaces().then((response) => setWorkspaces(response?.map((wk) => ({
+        if (loggedIn) getMyWorkspaces().then((response) => setWorkspaces(response?.map((wk: any) => ({
             name: wk.name,
             id: wk._id,
             users: wk.users
@@ -38,9 +39,9 @@ const Workspaces = () => {
 
                 <div className={'flex flex-col w-full gap-y-1 mt-2 '}>
                     {workspaces?.length ? workspaces?.map(({name, id}, index) => {
-                        return <div key={id} className={'w-full'} onClick={()=> router.push("/workspace/"+id)}>
+                        return <div key={id} className={'w-full'} onClick={() => router.push("/workspace/" + id)}>
                             <div
-                                  className="bg-white p-5 cursor-pointer border shadow-md rounded-md hover:shadow-2xl hover:bg-gray100 w-auto text-left text-secondary600  ">->
+                                className="bg-white p-5 cursor-pointer border shadow-md rounded-md hover:shadow-2xl hover:bg-gray100 w-auto text-left text-secondary600  ">
                                 Workspace {index + 1} : {name}</div>
                         </div>
                     }) : ''}
@@ -50,7 +51,7 @@ const Workspaces = () => {
                     <Typography tag={'h4'} className={'text-gray600'} variant={{
                         web: "Title-16-Regular",
                         mobile: 'Title-16-Regular'
-                    }}>Create your own workspace,if you don't have any!</Typography>
+                    }}>Create your own workspace,if you do not have any!</Typography>
                     <Button fullWidth={false} variant={'blue'} size={'medium'} type={'outline'}
                             onClick={handleCreateWorkspace}>+ Create a
                         workspace</Button>

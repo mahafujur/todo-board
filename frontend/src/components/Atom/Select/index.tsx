@@ -17,7 +17,7 @@ const Select: React.FC<SelectProps> = ({value, onChange, multiple, className, op
             className={`border rounded p-2 ${className}`}
         >
             {options?.map((name) => {
-                return <option value={name}>{name}</option>
+                return <option key={name} value={name}>{name}</option>
             })}
         </select>
     );

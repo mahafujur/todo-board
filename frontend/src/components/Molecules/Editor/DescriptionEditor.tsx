@@ -9,7 +9,7 @@ interface DescriptionEditorProps {
     onSave?: (content: string) => void;
     onChange?: (content: string) => void;
     viewOnly?: boolean;
-    onCancel: () => void;
+    onCancel?: () => void;
 }
 
 const DescriptionEditor: React.FC<DescriptionEditorProps> = ({
@@ -33,8 +33,7 @@ const DescriptionEditor: React.FC<DescriptionEditorProps> = ({
 
     const handleCancel = () => {
         setContent(initialValue);
-        console.log(initialValue, 'initial')
-        onCancel()
+        if(onCancel)onCancel()
     }
 
     const handleSave = useCallback(() => {

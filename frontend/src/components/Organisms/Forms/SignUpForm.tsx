@@ -17,7 +17,7 @@ const SignUPForm: React.FC = () => {
     return (
         <div className="max-w-md w-full mx-auto">
 
-            <form onSubmit={handleSubmit(onSubmitSignUp)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit(onSubmitSignUp)} className="bg-white rounded px-8 pt-6 pb-8 mb-4">
                 <div>
                     <FormControl
                         required={true}

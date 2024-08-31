@@ -80,7 +80,6 @@ const TicketDetailsView: FC<TicketDetailsViewProps> = ({ticketId, ticketData, on
                                 textStyle={'text-gray700 hover:bg-gray-200 '}
                                 initialValue={ticket?.title || 'ok'}
                                 placeholder="Title"
-                                className=" text-xl font-bold w-full"
                                 onSave={(value) => handleChange('title', value)}/>
                         </div>
 
@@ -98,8 +97,6 @@ const TicketDetailsView: FC<TicketDetailsViewProps> = ({ticketId, ticketData, on
                                     initialValue={ticketData?.description || ''}
                                     onChange={(value) => mutateDescription(value, false)}
                                     onSave={(value) => mutateDescription(value, true)}
-                                    placeholder="Description write here..."
-                                    className="border p-2 w-full h-32"
                                     onCancel={() => {
                                         setEditing(null)
                                         mutateDescription(ticketData?.description ? ticketData.description : '', false)
@@ -130,9 +127,9 @@ const TicketDetailsView: FC<TicketDetailsViewProps> = ({ticketId, ticketData, on
                             </Typography>
                             {editing?.date ? (
                                 <DatePicker
-                                    selected={ticket?.expiryDate ? new Date(ticket.expiryDate) : null}
+                                    selected={ticket?.expiryDate ? new Date(ticket.expiryDate) : undefined}
                                     onChange={(date) => handleChange('expiryDate', date ? date.toISOString() : '')}
-                                    placeholderText="Select expiry date"
+                                    placeholder="Select expiry date"
                                     className="border p-2 w-full"
                                 />
                             ) : (
