@@ -8,8 +8,10 @@ import useBoardStore from "@/store/useBoardStore.ts";
 import Modal from "@/components/Organisms/Modal";
 import CreateWorkspaceForm from "@/components/Organisms/Forms/CreateWorkspaceForm.tsx";
 import {useWorkspace} from "@/hooks/useWorkspace.ts";
+import {useRouter} from "next/router";
 
-const LoginButtonsCard = () => {
+const Workspaces = () => {
+    const router=useRouter();
     const loggedIn = isLoggedIn()
     const {getMyWorkspaces} = useWorkspace()
     const {setWorkSpaceModalOpen, workspaces, workSpaceModalOpen, setWorkspaces} = useBoardStore()
@@ -28,17 +30,21 @@ const LoginButtonsCard = () => {
 
     if (loggedIn) {
         return (
-            <div className={'flex flex-col'}>
-                <ul className={'flex gap-3 '}>
-                    {workspaces?.length ? workspaces?.map(({name, id}, index) => {
+            <div className={'flex flex-col w-full'}>
+                {workspaces?.length ? <Typography tag={'h4'} className={'text-gray600'} variant={{
+                    web: "Title-16-Bold",
+                    mobile: 'Title-16-Bold'
+                }}>Your workspaces</Typography> : null}
 
-                        return <li key={index} className={' mt-4'}>
-                            <Link href={`/workspace/${id}`}
-                                  className="bg-white p-5  border shadow-md rounded-md hover:shadow-2xl hover:bg-gray100 w-auto text-left text-secondary600 min-h-[200px] ">-> Workspace
-                                {index+1} : {name}</Link>
-                        </li>
+                <div className={'flex flex-col w-full gap-y-1 mt-2 '}>
+                    {workspaces?.length ? workspaces?.map(({name, id}, index) => {
+                        return <div key={id} className={'w-full'} onClick={()=> router.push("/workspace/"+id)}>
+                            <div
+                                  className="bg-white p-5 cursor-pointer border shadow-md rounded-md hover:shadow-2xl hover:bg-gray100 w-auto text-left text-secondary600  ">->
+                                Workspace {index + 1} : {name}</div>
+                        </div>
                     }) : ''}
-                </ul>
+                </div>
 
                 <div className={'flex flex-col gap-y-1 mt-7'}>
                     <Typography tag={'h4'} className={'text-gray600'} variant={{
@@ -87,11 +93,11 @@ const Home: React.FC = () => {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
 
-            <main className="max-w-lg p-6 bg-white rounded-lg shadow-lg">
+            <main className="p-6 bg-white rounded-lg shadow-lg">
                 <h1 className="text-3xl font-semibold text-gray-800 mb-4">Welcome to Todo Board</h1>
                 <p className="text-gray-600 mb-4">Organize your tasks efficiently with Todo Board.</p>
 
-                {!loader && <LoginButtonsCard/>}
+                {!loader && <Workspaces/>}
             </main>
         </div>
     );

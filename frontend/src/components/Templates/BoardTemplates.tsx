@@ -1,4 +1,4 @@
-import {Typography} from "@/components/Atom";
+import {Loader, Typography} from "@/components/Atom";
 import Image from "next/image";
 import templateIcon from '../../assets/templateIcon.svg';
 import {useThemes} from "@/hooks/useThemes.ts";
@@ -9,18 +9,22 @@ import {useRouter} from "next/router";
 const BoardTemplates = () => {
     const {installTheme, getThemes} = useThemes();
     const [themes, setThemes] = useState<IThemes[]>([]);
-
+    const [loader,setLoader]=useState(true)
     const router = useRouter();
     const workspaceId = router.query.id;
+
     useEffect(() => {
-        getThemes().then((response: any) => setThemes(response)).catch((err) => console.error(err))
+        getThemes().then((response: any) => setThemes(response)).catch((err) => console.error(err)).finally(()=> setLoader(false))
     }, []);
+
     const handleInstall = (themeId: string) => {
-        installTheme(themeId, workspaceId as string).then((response) => {
-            console.log(response)
-            // window.location.reload()
+        installTheme(themeId, workspaceId as string).then(() => {
+            window.location.reload()
         }).catch((err) => console.error(err))
 
+    }
+    if(loader){
+        return  <Loader/>
     }
     return (
         <div className={'flex flex-col '}>
@@ -68,7 +72,7 @@ const BoardTemplates = () => {
                             </div>
 
                         )
-                    }) : <div>Loading </div>
+                    }) : <Loader/>
                 }
 
             </div>

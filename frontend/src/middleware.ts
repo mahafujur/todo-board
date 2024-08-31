@@ -4,8 +4,9 @@ import { jwtDecode } from "jwt-decode";
 
 
 export function middleware(request: NextRequest) {
-    const token: boolean= request.cookies.has(COOKIES.TOKEN);
-    if (request.nextUrl.pathname === '/workspace') {
+    const token: boolean = request.cookies.has(COOKIES.TOKEN); // Check if the token exists in cookies
+    const isWorkspaceRoute = request.nextUrl.pathname.startsWith('/workspace'); // Check if the route starts with '/workspace'
+    if (isWorkspaceRoute) {
         if (!token) {
             const url = request.nextUrl.clone();
             url.pathname = '/login';
@@ -16,7 +17,7 @@ export function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === '/login') {
         if (token) {
             const url = request.nextUrl.clone();
-            url.pathname = '/workspace';
+            url.pathname = '/';
             return NextResponse.redirect(url);
         }
     }
@@ -26,5 +27,5 @@ export function middleware(request: NextRequest) {
 
 // Specify the paths where the middleware should apply
 export const config = {
-    matcher: ['/workspace', '/login'],
+    matcher: ['/workspace/:path*', '/login'],
 };

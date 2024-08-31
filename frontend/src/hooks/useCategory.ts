@@ -8,8 +8,8 @@ export const useCategory = () => {
         });
 
     };
-    const getAllCategories = () => {
-        return sendGetRequest(Api_Categories_Url);
+    const getAllCategories = (workspaceId:string) => {
+        return sendGetRequest(Api_Categories_Url+`/${workspaceId}`);
 
     };
 

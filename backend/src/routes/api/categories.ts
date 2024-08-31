@@ -27,8 +27,8 @@ router.post('/', auth, async (req: Request, res: Response) => {
 });
 
 // Get all categories for the authenticated user in a workspace
-router.get('/', auth, async (req: Request, res: Response) => {
-    const { workspaceId } = req.query;
+router.get('/:id', auth, async (req: Request, res: Response) => {
+    const { id: workspaceId } = req.params;
     try {
         const categories = await Category.find({ user: req.user!.id, workspace: workspaceId });
         res.json(categories);

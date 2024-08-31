@@ -1,13 +1,10 @@
-import {Typography} from "@/components/Atom";
-import Image from "next/image";
-import templateIcon from '../../assets/templateIcon.svg';
 import BoardTemplates from "@/components/Templates/BoardTemplates.tsx";
 
 const BlankBoardPage = () => {
 
-    return(
+    return (
         <div className={'flex items-center gap-x-2 '}>
-           <BoardTemplates/>
+            <BoardTemplates/>
         </div>
     )
 }

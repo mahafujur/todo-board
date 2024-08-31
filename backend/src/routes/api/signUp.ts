@@ -31,7 +31,7 @@ router.post(
             const user = User.build({ email, password, name }); // Include name in user creation
             await user.save();
 
-            const token = generateToken(user.id, user.email);
+            const token = generateToken(user.id, user.email,user.name);
             res.status(201).send({ user, token }); // Include token in response
         } catch (err) {
             console.error('Error during signup:', err);

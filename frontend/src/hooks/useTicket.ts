@@ -7,8 +7,8 @@ export const useTicket = () => {
         return sendPostRequest(Api_Ticket_Url, {...body});
 
     };
-    const getAllTickets = () => {
-        return sendGetRequest(Api_Ticket_Url);
+    const getAllTickets = (workspaceId:string) => {
+        return sendGetRequest(Api_Ticket_Url+`/${workspaceId}`);
 
     };
     const updateTicketStatus = (ticket:Ticket, categoryId:string) => {

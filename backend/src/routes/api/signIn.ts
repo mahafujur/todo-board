@@ -23,7 +23,7 @@ router.post(
                 return res.status(400).send({ error: 'Invalid credentials.' });
             }
 
-            const token = generateToken(user.id, user.email);
+            const token = generateToken(user.id, user.email,user.name);
             res.status(200).send({ user, token }); // Include token in response
         })(req, res, next);
     }

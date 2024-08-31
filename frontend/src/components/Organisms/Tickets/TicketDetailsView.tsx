@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import Modal from '@/components/Organisms/Modal';
 import ReactMarkdown from 'react-markdown';
-import {Button, DatePicker, Input, Select, Typography} from '@/components/Atom';
+import {Button, DatePicker, Input, Loader, Select, Typography} from '@/components/Atom';
 import {useTicket} from "@/hooks/useTicket.ts";
 import {Ticket} from "@/types/ticket.ts";
 import {WorkSpaceMembers} from "@/types/user.ts";
@@ -76,8 +76,8 @@ const TicketDetailsView: FC<TicketDetailsViewProps> = ({ticketId, onClose}) => {
 
     if (loading) {
         return (
-            <Modal open={!!ticketId} onCancel={onClose}>
-                <div className="p-4">Loading...</div>
+            <Modal maskClose={true} open={!!ticketId} onCancel={onClose} closable={true}>
+                <div className="p-4"><Loader/></div>
             </Modal>
         );
     }

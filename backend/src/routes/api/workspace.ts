@@ -17,16 +17,23 @@ router.post(
         validateRequest,
     ],
     async (req: Request, res: Response) => {
-        const {name} = req.body;
+        const { name } = req.body;
         try {
+            // Create a new workspace with the user's ID
             const workspace = new Workspace({
                 name,
                 users: [req.user!.id], // Add the creator as a user
             });
+
+            // Save the workspace to the database
             await workspace.save();
 
-            // Populate the users field to include user details
+            // Populate the users field with the specified fields
+
+            // Populate the users field with the specified fields
             const populatedWorkspace = await Workspace.findById(workspace._id).populate('users', 'name email id');
+
+            // Send the populated workspace as the response
             res.status(201).json(populatedWorkspace);
         } catch (err) {
             console.error('Error:', err instanceof Error ? err.message : 'Unexpected error');
@@ -34,6 +41,7 @@ router.post(
         }
     }
 );
+
 
 // Get all workspaces for the authenticated user, including user details
 router.get('/', auth, async (req: Request, res: Response) => {

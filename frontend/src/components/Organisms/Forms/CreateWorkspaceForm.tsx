@@ -6,6 +6,7 @@ import {Button, Input, Typography} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {FormControl} from "@/components/Molecules/Form";
 import {useWorkspace} from "@/hooks/useWorkspace.ts";
+import {useRouter} from "next/router";
 
 
 const schema = yup.object().shape({
@@ -24,6 +25,7 @@ const CreateWorkspaceForm: React.FC<CategoryCreateModalProps> = ({title}) => {
     const {setWorkSpaceModalOpen, setWorkspaces} = useBoardStore();
     const [loader, setLoader] = useState(false)
     const {createAWorkspace} = useWorkspace()
+    const router=useRouter();
     const {
         handleSubmit,
         reset,
@@ -38,12 +40,11 @@ const CreateWorkspaceForm: React.FC<CategoryCreateModalProps> = ({title}) => {
         const {title} = data || {};
         setLoader(true)
         createAWorkspace(title).then((response) => {
-                setWorkspaces(response?.map((wk)=>({ name:wk.name,id:wk._id,users:wk.users})))
+             router.push('/workspace/'+response._id)
             }
         ).catch((error) => console.log(error?.response?.status)).finally(() => {
             setWorkSpaceModalOpen(false)
-            setLoader(false)
-        });
+        }).finally(()=> setLoader(false));
         reset();
     };
 

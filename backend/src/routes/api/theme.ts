@@ -16,7 +16,7 @@ const themes = [
         themeId: 'blank',
         name: 'BB',
         title: 'Blank Board',
-        categories: ['Todo',],
+        categories: ['Todo'],
         tickets: [],
     },
     {
@@ -86,17 +86,20 @@ router.post(
                 await category.save();
                 categoryIds.push(category._id);
 
-                // Create sample tickets for each category
-                for (const ticketTitle of themeData.tickets) {
-                    const ticket = new Ticket({
-                        title: ticketTitle,
-                        description: `Sample ticket for ${categoryName}`,
-                        user: req.user!.id,
-                        category: category._id,
-                        workspace: workspaceId,
-                        expiryDate: new Date(),  // Example expiry date
-                    });
-                    await ticket.save();
+
+                if (themeData?.tickets?.length>0) {
+                    // Create sample tickets for each category
+                    for (const ticketTitle of themeData.tickets) {
+                        const ticket = new Ticket({
+                            title: ticketTitle,
+                            description: `Sample ticket for ${categoryName}`,
+                            user: req.user!.id,
+                            category: category._id,
+                            workspace: workspaceId,
+                            expiryDate: new Date(),  // Example expiry date
+                        });
+                        await ticket.save();
+                    }
                 }
             }
 
