@@ -3,7 +3,6 @@ import express, {Request, Response} from 'express';
 import auth from '../../middleware/auth';
 import Ticket from '../../models/ticket';
 import Category from '../../models/category';
-import workspace from "../../models/workspace";
 
 const router = express.Router();
 
@@ -88,8 +87,7 @@ router.get('/:id', auth, async (req: Request, res: Response) => {
             console.error(err.message);
             res.status(500).send('Server error');
         } else {
-            console.error('Unexpected error', err);
-            res.status(500).send('Server error');
+             res.status(500).send('Server error');
         }
     }
 });

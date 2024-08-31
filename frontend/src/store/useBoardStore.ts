@@ -18,6 +18,7 @@ interface BoardStore {
     setWorkSpaceModalOpen: (workSpaceModalOpen: boolean) => void;
     workspaces: IWorkspace[],
     setWorkspaces: (workspaces: IWorkspace []) => void;
+    updateTicket:(ticketId:string,ticket:Ticket)=>void;
 }
 
 const useBoardStore = create<BoardStore>((set) => ({
@@ -70,6 +71,12 @@ const useBoardStore = create<BoardStore>((set) => ({
             ticket.id === ticketId ? {...ticket, category: targetCategoryId} : ticket
         ),
     })),
+    updateTicket: (ticketId, updatedTicket) =>
+        set((state) => ({
+            tickets: state.tickets.map((ticket) =>
+                ticket.id === ticketId ? { ...ticket, ...updatedTicket } : ticket
+            ),
+        })),
     workSpaceModalOpen: false,
     setWorkSpaceModalOpen: (open) => set({workSpaceModalOpen: open}),
     workspaces: [],

@@ -1,15 +1,17 @@
 import React, {Fragment, useMemo, useState} from "react";
-import {Category} from "@/types/ticket.ts";
+import {Category, Ticket} from "@/types/ticket.ts";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {useTicket} from "@/hooks/useTicket.ts";
 import TicketCard from "@/components/Organisms/Tickets/TicketCard.tsx";
 import {EditableInput} from "@/components/Atom/Input";
 import CreateTicketCard from "@/components/Organisms/Tickets/CreateTicektCard.tsx";
 import TicketDetailsView from "@/components/Organisms/Tickets/TicketDetailsView.tsx";
+import {useCategory} from "@/hooks/useCategory.ts";
 
 const TicketListRow: React.FC<{ category: Category }> = ({category}) => {
-    const {tickets, moveTicket, updateCategory, ticketModalOpen, setTicketModal} = useBoardStore();
-    const {updateTicketStatus, updateCategoryName} = useTicket();
+    const {tickets, moveTicket, updateCategory, updateTicket} = useBoardStore();
+    const {updateTicketStatus} = useTicket();
+    const {updateCategoryName} = useCategory();
     const [isCreatingTicket, setIsCreatingTicket] = useState(false);
     const [ticketDetailsViewId, setTicketDetailsViewId] = useState<string | null>(null)
 
@@ -29,7 +31,7 @@ const TicketListRow: React.FC<{ category: Category }> = ({category}) => {
         if (ticket)
             updateTicketStatus(ticket, category.id)
                 .then((res) => {
-                    console.log("success", res);
+                    updateTicket(ticketId, ticket)
                 })
                 .catch(() => {
                     window.location.reload();
@@ -67,7 +69,7 @@ const TicketListRow: React.FC<{ category: Category }> = ({category}) => {
                 {/* Header: Fixed at the top */}
                 <div className="pb-2 w-full flex-shrink-0">
                     <EditableInput
-                        initialValue={category.name}
+                        initialValue={category?.name || ''}
                         onSave={updateFiledName}
                         placeholder="Enter ticket name..."
                         inputStyle="border-blue-500 focus:border-blue-700"
@@ -105,7 +107,8 @@ const TicketListRow: React.FC<{ category: Category }> = ({category}) => {
                 </div>
             </div>
             {ticketDetailsViewId ?
-                <TicketDetailsView ticketId={ticketDetailsViewId} onClose={() => setTicketDetailsViewId(null)}/> : null}
+                <TicketDetailsView ticketData={tickets?.find((ticket) => ticket.id === ticketDetailsViewId) as Ticket}
+                                   ticketId={ticketDetailsViewId} onClose={() => setTicketDetailsViewId(null)}/> : null}
         </Fragment>
     );
 };

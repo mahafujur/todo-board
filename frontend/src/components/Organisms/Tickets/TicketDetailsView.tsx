@@ -1,14 +1,25 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, Fragment, useEffect, useState} from 'react';
 import Modal from '@/components/Organisms/Modal';
-import ReactMarkdown from 'react-markdown';
-import {Button, DatePicker, Input, Loader, Select, Typography} from '@/components/Atom';
+import {DatePicker, Loader, Typography} from '@/components/Atom';
 import {useTicket} from "@/hooks/useTicket.ts";
 import {Ticket} from "@/types/ticket.ts";
 import {WorkSpaceMembers} from "@/types/user.ts";
+import Icon from "@/Icons";
+import {EditableInput} from "@/components/Atom/Input";
+import useBoardStore from "@/store/useBoardStore.ts";
+import dynamic from "next/dynamic";
+
+//@ts-ignore
+const DescriptionEditor = dynamic(() => import('@/components/Molecules/Editor/DescriptionEditor'), {
+    ssr: false, // Disable server-side rendering for this component
+    loading: () => <p>Loading editor...</p>, // Optional: loading fallback
+});
+
 
 interface TicketDetailsViewProps {
-    ticketId?: string | null;
+    ticketId: string;
     onClose: () => void;
+    ticketData: Ticket;
 }
 
 interface EditHistory {
@@ -21,169 +32,135 @@ interface TicketDetails extends Ticket {
     members: WorkSpaceMembers[]
 }
 
-const TicketDetailsView: FC<TicketDetailsViewProps> = ({ticketId, onClose}) => {
-    const [ticketDetails, setTicketDetails] = useState<TicketDetails | null>(null);
-    const [editHistory, setEditHistory] = useState<EditHistory[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [editing, setEditing] = useState(false);
-    const {getTicketDetails, updateTicket } = useTicket() //getWorkSpaceMembers
-    // const [workspaceMembers, setWorkSpaceMembers] = useState<WorkSpaceMembers[]>([])
-    //
-    // useEffect(() => {
-    //     getWorkSpaceMembers('a').then((response) => {
-    //             console.log(response)
-    //             setWorkSpaceMembers([])
-    //         }
-    //     ).catch((err) => console.error(err))
-    // }, []);
-    useEffect(() => {
-        if (ticketId) {
-            getTicketDetails(ticketId)
-                .then((res) => {
-                    console.log(res)
-                    const {details, history} = res;
-                    setTicketDetails(details);
-                    setEditHistory(history);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error('Error fetching ticket details or edit history:', error);
-                    setLoading(false);
-                });
-        }
-    }, [ticketId]);
-
-    const handleSave = () => {
-        if (ticketId && ticketDetails) {
-            updateTicket(ticketDetails)
-                .then(() => {
-                    setEditing(false);
-                })
-                .catch(error => {
-                    console.error('Error updating ticket:', error);
-                });
-        }
-    };
-
-    const handleChange = (field: keyof Ticket, value: any) => {
-        if (ticketDetails) {
-            setTicketDetails({
-                ...ticketDetails,
-                [field]: value,
-            });
-        }
-    };
-
-    if (loading) {
-        return (
-            <Modal maskClose={true} open={!!ticketId} onCancel={onClose} closable={true}>
-                <div className="p-4"><Loader/></div>
-            </Modal>
-        );
+type Editing =
+    {
+        description?: boolean;
+        date?: boolean;
+        members?: boolean
     }
 
-    return (
-        <Modal open={!!ticketId} onCancel={onClose}>
-            <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg flex flex-col">
-                <div className="mb-4">
-                    {editing ? (
-                        <Input
-                            value={ticketDetails?.title || ''}
-                            onChange={(e) => handleChange('title', e.target.value)}
-                            placeholder="Title"
-                            className="text-2xl font-bold mb-2 w-full"
-                        />
-                    ) : (
-                        <h2 className="text-2xl font-bold mb-2">{ticketDetails?.title}</h2>
-                    )}
-                </div>
+const TicketDetailsView: FC<TicketDetailsViewProps> = ({ticketId, ticketData, onClose}) => {
+    const [ticketDetails, setTicketDetails] = useState<TicketDetails | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [editing, setEditing] = useState<Editing | null>(null);
+    const { updateTicketApi} = useTicket() //getWorkSpaceMembers
+    const [ticket, setTicket] = useState(ticketData);
+    const {updateTicket} = useBoardStore();
 
-                <div className="mb-4">
-                    {editing ? (
-                        <ReactMarkdown
-                            value={ticketDetails?.description || ''}
-                            onChange={(e) => handleChange('description', e.target.value)}
-                            placeholder="Description"
-                            className="border p-2 w-full h-32"
-                        />
-                    ) : (
-                        <ReactMarkdown
-                            className="border p-2 w-full h-32">{ticketDetails?.description || ''}</ReactMarkdown>
-                    )}
-                </div>
+    const mutateDescription = (value: string, save: boolean) => {
+        const updatedTicket = {
+            ...ticket,
+            description: value,
+        }
+        setTicket(updatedTicket);
+        updateTicket(ticketId, updatedTicket)
+        if (save) updateTicketApi(updatedTicket).then(() => setEditing(null))
+    }
+    const handleChange = (field: keyof Ticket, value: any) => {
+        if (ticket) {
+            const updatedTicket={
+                ...ticket,
+                [field]: value,
+            };
+            setTicket(updatedTicket);
+            updateTicketApi(updatedTicket).then((response) => {
+                if (response)
+                    updateTicket(ticketId,updatedTicket)
+            }).catch((err) => console.log(err))
+        }
+    };
 
-                <div className="mb-4">
-                    {editing ? (
-                        <DatePicker
-                            selected={ticketDetails?.expiryDate ? new Date(ticketDetails.expiryDate) : null}
-                            onChange={(date) => handleChange('expiryDate', date ? date.toISOString() : '')}
-                            placeholderText="Select expiry date"
-                            className="border p-2 w-full"
-                        />
-                    ) : (
-                        <div className="border p-2 w-full">
-                            {ticketDetails?.expiryDate ? new Date(ticketDetails.expiryDate).toLocaleDateString() : 'No expiry date'}
+    if (ticket)
+        return (
+            <Modal open={!!ticketId} onCancel={onClose} maskClose={true}>
+                    <div className="p-6 bg-[#091e420f] mx-autoflex flex-col">
+                        <div className="mb-4  flex gap-x-1 items-center w-full">
+                            <Icon name={'shortingIcon'}/>
+                            <EditableInput
+                                textStyle={'text-gray700 hover:bg-gray-200 '}
+                                initialValue={ticket?.title || 'ok'}
+                                placeholder="Title"
+                                className=" text-xl font-bold w-full"
+                                onSave={(value) => handleChange('title', value)}/>
                         </div>
-                    )}
-                </div>
 
-                <div className="mb-4">
-                    {editing ? (
-                        <div>afd </div>
-                        // <Select
-                        //     options={workspaceMembers || []}
-                        //     onChange={(e) => handleChange('members', Array.from(e.target.selectedOptions, option => option.value))}
-                        //     multiple
-                        //     className="border p-2 w-full"
-                        //  value={}/>
-
-
-                    ) : (
-                        <div className="border p-2 w-full">
-                            Members
-                            <br/>
-                            {ticketDetails?.members?.map(({name}) => <div>
-                                <Typography tag={'p'} variant={{
-                                    web: 'Body-14-Medium',
-                                    mobile: "Body-12-Medium"
-                                }}>{name}</Typography>
-                            </div>)}
-                        </div>
-                    )}
-                </div>
-
-                <div className="mt-6">
-                    <h3 className="text-xl font-semibold mb-2">Edit History</h3>
-                    <div className="space-y-2">
-                        {editHistory?.map((entry, index) => (
-                            <div key={index} className="p-4 border border-gray-300 rounded-md">
-                                <div className="text-sm text-gray-600 mb-1">{entry.date} by {entry.user}</div>
-                                <p>{entry.changes}</p>
+                        <div className="mb-4">
+                            <div className="mb-4  flex gap-x-1 items-center w-full">
+                                <Icon name={'shortingIcon'}/>
+                                <Typography className={'text-gray700'} tag={'h4'} variant={{
+                                    web: 'Title-18-Regular',
+                                    mobile: 'Body-16-Regular'
+                                }}>Description</Typography>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                            {editing?.description ? (
+                                <DescriptionEditor
+                                    value={ticket?.description || ''}
+                                    initialValue={ticketData?.description || ''}
+                                    onChange={(value) => mutateDescription(value, false)}
+                                    onSave={(value) => mutateDescription(value, true)}
+                                    placeholder="Description write here..."
+                                    className="border p-2 w-full h-32"
+                                    onCancel={() => {
+                                        setEditing(null)
+                                        mutateDescription(ticketData?.description ? ticketData.description : '', false)
 
-                <div className="mt-4 flex justify-end">
-                    {editing ? (
-                        <>
-                            <Button onClick={handleSave} variant="blue" size="medium" type="button">
-                                Save
-                            </Button>
-                            <Button onClick={() => setEditing(false)} variant="pink" size="medium" type="button"
-                                    className="ml-2">
-                                Cancel
-                            </Button>
-                        </>
-                    ) : (
-                        <Button onClick={() => setEditing(true)} variant="blue" size="medium" type="button">
-                            Edit
-                        </Button>
-                    )}
-                </div>
-            </div>
-        </Modal>
-    );
+                                    }}
+                                />
+                            ) : (
+                                <Fragment>
+                                    {!ticket?.description ? <div onClick={() => setEditing({description: true})}
+                                                                 className={'bg-gray200 hover:bg-gray-400 rounded-md mt-1 px-4 py-4 min-h-[70px] flex flex-shrink'}>
+                                            Add a more detailed description…
+                                        </div> :
+                                        <div onClick={() => setEditing({description: true})}>
+                                            <DescriptionEditor
+                                                viewOnly={true}
+                                                value={ticket?.description || ''}
+
+                                            /></div>}
+                                </Fragment>
+                            )}
+
+                        <div className="my-4">
+                            <Typography tag={'p'} variant={{
+                                web:'Body-16-Regular',
+                                mobile:'Body-16-Regular'
+                            }} className={'text-gray700 mb-2'}>
+                                Due date
+                            </Typography>
+                            {editing?.date ? (
+                                <DatePicker
+                                    selected={ticket?.expiryDate ? new Date(ticket.expiryDate) : null}
+                                    onChange={(date) => handleChange('expiryDate', date ? date.toISOString() : '')}
+                                    placeholderText="Select expiry date"
+                                    className="border p-2 w-full"
+                                />
+                            ) : (
+                                <div className="border p-2 w-full" onClick={()=> setEditing({ date:true})}>
+                                    {ticket?.expiryDate ? new Date(ticket.expiryDate).toLocaleDateString() : 'Set due  date'}
+                                </div>
+                            )}
+                        </div>
+                        </div>
+
+                        {/*<div className="mt-6">*/}
+                        {/*    <h3 className="text-xl font-semibold mb-2">Edit History</h3>*/}
+                        {/*    <div className="space-y-2">*/}
+                        {/*        {editHistory?.map((entry, index) => (*/}
+                        {/*            <div key={index} className="p-4 border border-gray-300 rounded-md">*/}
+                        {/*                <div className="text-sm text-gray-600 mb-1">{entry.date} by {entry.user}</div>*/}
+                        {/*                <p>{entry.changes}</p>*/}
+                        {/*            </div>*/}
+                        {/*        ))}*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+
+
+                    </div>
+            </Modal>
+        );
+
+    return <Loader/>
 };
 
 export default TicketDetailsView;
