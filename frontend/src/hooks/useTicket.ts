@@ -1,5 +1,5 @@
 import {sendGetRequest, sendPostRequest, sendPutRequest} from '@/lib/ApiHandler';
-import {Api_Ticket_Url} from '@/utils/apiAccessUrls';
+import {Api_Categories_Url, Api_Ticket_Url} from '@/utils/apiAccessUrls';
 import {Ticket} from "@/types/ticket.ts";
 
 export const useTicket = () => {
@@ -17,5 +17,9 @@ export const useTicket = () => {
         return  sendPutRequest(Api_Ticket_Url + `/${ticketId}`, body);
     };
 
-    return {createATicket, getAllTickets, updateTicketStatus};
+    const updateCategoryName = (id:string,value:string) => {
+        return  sendPutRequest(Api_Categories_Url + `/${id}`, {name:value});
+    }
+
+    return {createATicket, getAllTickets, updateTicketStatus,updateCategoryName};
 };

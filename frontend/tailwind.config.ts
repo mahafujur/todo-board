@@ -122,7 +122,7 @@ const config: {
                 accent800: '#0d1c55',
                 accent900: '#071240',
                 gray50: '#f8f8f8',
-                gray100: '#f3f3f3',
+                gray100: '#F1F2F4',
                 gray200: '#ededed',
                 gray300: '#dfdfdf',
                 gray400: '#bdbdbd',

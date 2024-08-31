@@ -1,12 +1,35 @@
 import Head from 'next/head';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import SEO from "@/components/Templates/SEO";
-import {isLoggedIn} from "@/utils/useManager.ts";
+import {isLoggedIn} from "@/utils/useManager";
 
-const Home: React.FC = () => {
+const LoginButtonsCard = () => {
     const loggedIn = isLoggedIn()
 
+    if (loggedIn) {
+        return (<div className={'flex '}>
+            <Link href="/board"
+                  className="w-auto mx-auto text-center min-w-[200px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-4   rounded-lg shadow-lg transition-colors duration-300">Visit Your Board</Link>
+
+        </div>)
+    }
+    return (
+        <div className="space-x-4 w-full mx-auto">
+            <Link href="/login"
+                  className="w-full  min-w-[200px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-colors duration-300">Login</Link>
+            <Link href="/signup"
+                  className="w-full  min-w-[200px] bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg shadow-lg transition-colors duration-300">Sign
+                Up</Link>
+        </div>
+    )
+}
+const Home: React.FC = () => {
+    const [loader, setLoader] = useState(true)
+
+    useEffect(() => {
+        setLoader(false)
+    }, []);
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <SEO
@@ -24,17 +47,7 @@ const Home: React.FC = () => {
                 <h1 className="text-3xl font-semibold text-gray-800 mb-6">Welcome to Todo Board</h1>
                 <p className="text-gray-600 mb-8">Organize your tasks efficiently with Todo Board.</p>
 
-                {loggedIn? <div>
-                    <Link href="/board"
-                          className="w-full mx-auto min-w-[200px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-colors duration-300">Board</Link>
-
-                </div> : <div className="space-x-4 w-full mx-auto">
-                    <Link href="/login"
-                          className="w-full  min-w-[200px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-colors duration-300">Login</Link>
-                    <Link href="/signup"
-                          className="w-full  min-w-[200px] bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg shadow-lg transition-colors duration-300">Sign
-                        Up</Link>
-                </div> }
+                {!loader && <LoginButtonsCard/>}
             </main>
         </div>
     );

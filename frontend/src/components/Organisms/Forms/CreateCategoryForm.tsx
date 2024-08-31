@@ -87,7 +87,7 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
                             type={'primary'}>
                         Cancel
                     </Button>
-                    <Button loading={loader} disabled={loader} type={'primary'} variant={'blue'}
+                    <Button htmlType={'submit'} loading={loader} disabled={loader} type={'primary'} variant={'blue'}
                             size={'medium'}>Create</Button>
                 </div>
             </form>

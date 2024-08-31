@@ -37,18 +37,28 @@ const useBoardStore = create<BoardStore>((set) => ({
         })),
     updateCategory: (newCategory) =>
         set((state) => {
-            // Check if the category already exists
-            const categoryExists = state.categories.some(
+            // Check if the category already exists by finding its index
+            const categoryIndex = state.categories.findIndex(
                 (category) => category.id === newCategory.id
             );
-            // If it doesn't exist, add the new category
-            if (!categoryExists) {
+
+            // If the category exists, replace it with the new category
+            if (categoryIndex !== -1) {
+                // Create a copy of the existing categories array
+                const updatedCategories = [...state.categories];
+
+                // Replace the existing category with the new category
+                updatedCategories[categoryIndex] = newCategory;
+
                 return {
-                    categories: [...state.categories, newCategory],
+                    categories: updatedCategories,
                 };
             }
-            // If it does exist, return the state unchanged
-            return state;
+
+            // If the category does not exist, add the new category
+            return {
+                categories: [...state.categories, newCategory],
+            };
         }),
     moveTicket: (ticketId, targetCategoryId) => set((state) => ({
         tickets: state.tickets.map((ticket) =>
