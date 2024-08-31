@@ -1,5 +1,5 @@
 import {sendGetRequest, sendPostRequest} from '@/lib/ApiHandler';
-import {Api_Workspace_Url} from '@/utils/apiAccessUrls';
+import {Api_Theme_Url, Api_Workspace_Url} from '@/utils/apiAccessUrls';
 
 export const useWorkspace = () => {
     const createAWorkspace = (name: string) => {
@@ -17,5 +17,10 @@ export const useWorkspace = () => {
         return sendGetRequest(Api_Workspace_Url + `/add-user/${workspaceId}`,);
 
     }
-    return {createAWorkspace, getMyWorkspaces, getWorkSpaceMembers, addUserToWorkSpaces};
+    const installTheme = (id:string,workspaceId:string) => {
+        return sendPostRequest(Api_Theme_Url , { themeId:id,workspaceId:workspaceId});
+
+    }
+
+    return {createAWorkspace, getMyWorkspaces, getWorkSpaceMembers, addUserToWorkSpaces,installTheme};
 };

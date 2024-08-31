@@ -8,6 +8,7 @@ import {signUpRouter} from "./api/signUp";
 import {ticketRouter} from "./api/ticket";
 import {categoryRouter} from "./api/categories";
 import {workspaceRouter} from "./api/workspace";
+import {themeRouter} from "./api/theme";
 
 // ===================== Configuring Express Router =====================
 const router = express.Router();
@@ -23,6 +24,7 @@ router.post("/signout", signOutRouter);
 router.use('/workspace', workspaceRouter);
 router.use('/categories', categoryRouter);
 router.use('/tickets', ticketRouter);
+router.use('/theme', themeRouter);
 
 
 export default router;

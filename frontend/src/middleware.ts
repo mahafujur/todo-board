@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 export function middleware(request: NextRequest) {
     const token: boolean= request.cookies.has(COOKIES.TOKEN);
-    if (request.nextUrl.pathname === '/board') {
+    if (request.nextUrl.pathname === '/workspace') {
         if (!token) {
             const url = request.nextUrl.clone();
             url.pathname = '/login';
@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === '/login') {
         if (token) {
             const url = request.nextUrl.clone();
-            url.pathname = '/board';
+            url.pathname = '/workspace';
             return NextResponse.redirect(url);
         }
     }
@@ -26,5 +26,5 @@ export function middleware(request: NextRequest) {
 
 // Specify the paths where the middleware should apply
 export const config = {
-    matcher: ['/board', '/login'],
+    matcher: ['/workspace', '/login'],
 };

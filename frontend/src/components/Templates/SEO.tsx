@@ -22,7 +22,7 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({
                                      title='Todo Board',
                                      description = 'Todo Board for project management',
-                                     keywords = ['todo','board','zira'],
+                                     keywords = ['todo','workspace','zira'],
                                      author = 'Mahafujur Rahaman',
                                      image = '',
                                      article,

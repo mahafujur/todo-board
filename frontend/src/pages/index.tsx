@@ -33,7 +33,7 @@ const LoginButtonsCard = () => {
                     {workspaces?.length ? workspaces?.map(({name, id}, index) => {
 
                         return <li key={index} className={' mt-4'}>
-                            <Link href={`/board/${id}`}
+                            <Link href={`/workspace/${id}`}
                                   className="bg-white p-5  border shadow-md rounded-md hover:shadow-2xl hover:bg-gray100 w-auto text-left text-secondary600 min-h-[200px] ">-> Workspace
                                 {index+1} : {name}</Link>
                         </li>
@@ -41,9 +41,9 @@ const LoginButtonsCard = () => {
                 </ul>
 
                 <div className={'flex flex-col gap-y-1 mt-7'}>
-                    <Typography tag={'h4'} variant={{
-                        web: "Title-16-Semibold",
-                        mobile: 'Title-16-Semibold'
+                    <Typography tag={'h4'} className={'text-gray600'} variant={{
+                        web: "Title-16-Regular",
+                        mobile: 'Title-16-Regular'
                     }}>Create your own workspace,if you don't have any!</Typography>
                     <Button fullWidth={false} variant={'blue'} size={'medium'} type={'outline'}
                             onClick={handleCreateWorkspace}>+ Create a
