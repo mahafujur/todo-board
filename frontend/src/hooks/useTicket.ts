@@ -21,5 +21,19 @@ export const useTicket = () => {
         return  sendPutRequest(Api_Categories_Url + `/${id}`, {name:value});
     }
 
-    return {createATicket, getAllTickets, updateTicketStatus,updateCategoryName};
+    const getTicketDetails = (id:string) => {
+        return sendGetRequest(Api_Ticket_Url + `/${id}`,);
+
+    };
+
+    const updateTicket= (ticket:Ticket) => {
+        const body = {...ticket}
+        return sendPutRequest(Api_Ticket_Url + `/${ticket.id}`, body)
+    }
+
+    const getWorkSpaceMembers = (workspaceId:string) => {
+        return sendGetRequest(Api_Ticket_Url + `/${workspaceId}`,);
+    }
+
+    return {createATicket, getAllTickets, updateTicketStatus,updateCategoryName,getTicketDetails,updateTicket,getWorkSpaceMembers};
 };

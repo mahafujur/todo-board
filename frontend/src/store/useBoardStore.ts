@@ -13,6 +13,8 @@ interface BoardStore {
     setCategories: (categories: Category[]) => void;
     addTicket: (ticket: Ticket) => void;
     moveTicket: (ticketId: string, targetCategoryId: string) => void;
+    workSpaceModalOpen: boolean;
+    setWorkSpaceModalOpen: (workSpaceModalOpen: boolean) => void;
 }
 
 const useBoardStore = create<BoardStore>((set) => ({
@@ -65,6 +67,8 @@ const useBoardStore = create<BoardStore>((set) => ({
             ticket.id === ticketId ? {...ticket, category: targetCategoryId} : ticket
         ),
     })),
+    workSpaceModalOpen: false,
+    setWorkSpaceModalOpen: (open) => set({workSpaceModalOpen: open}),
 
 }));
 export default useBoardStore;

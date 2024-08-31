@@ -9,10 +9,11 @@ export const useAuthApi = () => {
         });
 
     };
-    const signUpApiCall = (email: string, secret: string) => {
+    const signUpApiCall = (email: string, secret: string,name:string) => {
         return sendPostRequest(Api_Signup_Url, {
             email,
             password: secret,
+            name,
         });
 
     };

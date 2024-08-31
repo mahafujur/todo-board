@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import {useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {LoginFormProps} from "@/types/forms";
+import {LoginFormProps, SignUpFormProps} from "@/types/forms";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useRouter} from 'next/router';
 import {useAuthApi} from "@/hooks/useAuthApi.ts";
@@ -13,20 +13,22 @@ import {COOKIES} from "@/utils/constants.ts";
 export const signUpSchema = yup.object({
     email: yup.string().required('Email is required').email('Provide correct email address'),
     password: yup.string().min(6).required('Password is required'),
+    name: yup.string().required('Name is required').min(2,"Minimum 2 characters")
 });
 
 const useSignUpForm = () => {
     const router = useRouter();
-    const {setValue, handleSubmit, setError, clearErrors, register, formState: {errors}} = useForm<LoginFormProps>({
+    const {setValue, handleSubmit, setError, clearErrors, register, formState: {errors}} = useForm<SignUpFormProps>({
         resolver: yupResolver(signUpSchema),
     });
     const {signUpApiCall} = useAuthApi();
     const [loading, setLoading] = useState(false);
 
-    const onSubmitSignUp = async (data: LoginFormProps) => {
+    const onSubmitSignUp = async (data:SignUpFormProps) => {
+        const { email,password,name}=data;
         setLoading(true);
         try {
-            const res = await signUpApiCall(data.email, data.password);
+            const res = await signUpApiCall(email, password,name);
             if (res?.token) {
                 setACookie(COOKIES.TOKEN, res.token)
                 Swal.fire({
@@ -44,7 +46,7 @@ const useSignUpForm = () => {
                           `
                 }).then((result) => {
                     if (result.isConfirmed) {
-                         router.push('/board');
+                        router.push('/');
                     }
                 });
 

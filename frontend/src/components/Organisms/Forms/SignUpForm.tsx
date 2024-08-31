@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import {FormControl} from "@/components/Molecules/Form";
 import {FieldPath, FieldPathValue} from "react-hook-form";
-import {LoginFormProps} from "@/types/forms";
+import {LoginFormProps, SignUpFormProps} from "@/types/forms";
 import useSignUpForm from "@/hooks/useSignUpForm.ts";
 
 const SignUPForm: React.FC = () => {
@@ -21,6 +21,25 @@ const SignUPForm: React.FC = () => {
                 <div>
                     <FormControl
                         required={true}
+                        label="Name"
+                        htmlFor="name"
+                        className="mb-4"
+                        errors={errors?.name?.message && errors?.name?.message?.length > 0 ? [errors?.name?.message as string] : []}
+                    >
+                        <Input
+                            id="name"
+                            placeholder="Your Name"
+                            onChange={({target: {value}}) => {
+                                setValue('name' as FieldPath<SignUpFormProps>, value as FieldPathValue<SignUpFormProps, 'name'>);
+                            }}
+                            autoComplete="off"
+                        />
+                    </FormControl>
+                </div>
+
+                <div className={''}>
+                    <FormControl
+                        required={true}
                         label="Email"
                         htmlFor="email"
                         className="mb-4"
@@ -30,7 +49,7 @@ const SignUPForm: React.FC = () => {
                             id="email"
                             placeholder="Your email"
                             onChange={({target: {value}}) => {
-                                setValue('email' as FieldPath<LoginFormProps>, value as FieldPathValue<LoginFormProps, 'email'>);
+                                setValue('email' as FieldPath<SignUpFormProps>, value as FieldPathValue<SignUpFormProps, 'email'>);
                             }}
                             autoComplete="on"
                         />
@@ -51,7 +70,7 @@ const SignUPForm: React.FC = () => {
                             id="password"
                             placeholder="Your Password"
                             onChange={({target: {value}}) => {
-                                setValue('password' as FieldPath<LoginFormProps>, value as FieldPathValue<LoginFormProps, 'email'>);
+                                setValue('password' as FieldPath<SignUpFormProps>, value as FieldPathValue<SignUpFormProps, 'email'>);
                             }}
                             autoComplete="on"
                             type="password"

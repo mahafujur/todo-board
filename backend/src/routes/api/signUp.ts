@@ -1,3 +1,4 @@
+// src/routes/auth/signup.ts
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { User } from '../../models/user';
@@ -9,15 +10,16 @@ const router = express.Router();
 router.post(
     '/signup',
     [
+        body('name').trim().notEmpty().withMessage('Name is required.'),
         body('email').isEmail().withMessage('Provide a valid email.'),
         body('password')
             .trim()
-            .isLength({ min: 4, max: 20 })
+            .isLength({ min: 2, max: 30 })
             .withMessage('Password must be between 4 and 20 characters.'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        const { email, password } = req.body;
+        const { email, password, name } = req.body;
 
         try {
             const existingUser = await User.findOne({ email });
@@ -26,7 +28,7 @@ router.post(
                 return res.status(400).send({ error: 'Email already in use.' });
             }
 
-            const user = User.build({ email, password }); // Password will be hashed by Passport.js local strategy
+            const user = User.build({ email, password, name }); // Include name in user creation
             await user.save();
 
             const token = generateToken(user.id, user.email);

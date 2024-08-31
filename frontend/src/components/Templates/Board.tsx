@@ -6,7 +6,6 @@ import TicketListRow from "@/components/Organisms/Tickets/TicketListRow.tsx";
 
 const Board: React.FC = () => {
     const {categories} = useBoardStore();
-    console.log(categories,'cat')
 
     return (
         <div className="flex space-x-4 overflow-x-scroll p-4">
