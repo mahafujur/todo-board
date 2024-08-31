@@ -4,16 +4,16 @@ import {Ticket} from "@/types/ticket.ts";
 
 export const useTicket = () => {
     const createATicket = (body: Ticket) => {
-        return sendPostRequest(Api_Ticket_Url, {...body});
+        return sendPostRequest(Api_Ticket_Url+'', {...body});
 
     };
     const getAllTickets = (workspaceId: string) => {
         return sendGetRequest(Api_Ticket_Url + `/${workspaceId}`);
 
     };
-    const updateTicketStatus = (ticket: Ticket, categoryId: string) => {
+    const updateTicketStatus = (ticket: Ticket, categoryId: string,workspaceId: string) => {
         const ticketId = ticket?.id;
-        const body = {...ticket, categoryId: categoryId}
+        const body = {...ticket, categoryId: categoryId,workspaceId: workspaceId}
         return sendPutRequest(Api_Ticket_Url + `/${ticketId}`, body);
     };
 

@@ -7,8 +7,12 @@ import {EditableInput} from "@/components/Atom/Input";
 import CreateTicketCard from "@/components/Organisms/Tickets/CreateTicektCard.tsx";
 import TicketDetailsView from "@/components/Organisms/Tickets/TicketDetailsView.tsx";
 import {useCategory} from "@/hooks/useCategory.ts";
+import workspace from "@/pages/workspace";
+import {useRouter} from "next/router";
 
 const TicketListRow: React.FC<{ category: Category }> = ({category}) => {
+    const router=useRouter();
+    const  workspaceId=router.query.id;
     const {tickets, moveTicket, updateCategory, updateTicket} = useBoardStore();
     const {updateTicketStatus} = useTicket();
     const {updateCategoryName} = useCategory();
@@ -29,13 +33,12 @@ const TicketListRow: React.FC<{ category: Category }> = ({category}) => {
         moveTicket(ticketId, category.id);
         const ticket = tickets.find((item) => item.id === ticketId);
         if (ticket)
-            updateTicketStatus(ticket, category.id)
-                .then((res) => {
-                    updateTicket(ticketId, ticket)
-                })
-                .catch(() => {
-                    window.location.reload();
-                });
+            updateTicketStatus(ticket, category.id,workspaceId as string)
+                // .then((res) => {
+                // })
+                // .catch(() => {
+                //     window.location.reload();
+                // });
     };
 
     const handleDragOver = (e: React.DragEvent) => {

@@ -2,9 +2,10 @@ import {sendGetRequest, sendPostRequest, sendPutRequest} from '@/lib/ApiHandler'
 import {Api_Categories_Url} from '@/utils/apiAccessUrls';
 
 export const useCategory = () => {
-    const createACategory = (name: string) => {
+    const createACategory = (name: string,workspaceId:string) => {
         return sendPostRequest(Api_Categories_Url, {
-            name
+            name,
+            workspaceId:workspaceId
         });
 
     };

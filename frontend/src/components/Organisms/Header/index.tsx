@@ -57,8 +57,8 @@ const Header = () => {
 
             </div>
             <div className={'flex items-center gap-x-2'}>
-                <Button className={'ml-3 md:ml-6'} onClick={handleLogout} variant={'white'} size={'small'}
-                        type={'outline'}>
+                <Button className={'ml-3 md:ml-6'} onClick={handleLogout} variant={'pink'} size={'small'}
+                        type={'text'}>
                     Logout</Button>
                <div className={'flex justify-center my-auto mx-auto bg-secondary400 rounded-full h-10 w-10 '}>
                   <h2 className={'my-auto text-white text-md'}>

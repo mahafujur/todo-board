@@ -7,6 +7,7 @@ import useBoardStore from "@/store/useBoardStore.ts";
 import {FormControl, FormLabel} from "@/components/Molecules/Form";
 import {useTicket} from "@/hooks/useTicket.ts";
 import {Ticket} from "@/types/ticket.ts";
+import {useRouter} from "next/router";
 
 
 const schema = yup.object().shape({
@@ -20,25 +21,24 @@ interface TicketCreateModalProps {
 }
 
 const CreateTicketForm: React.FC<TicketCreateModalProps> = () => {
+    const router=useRouter();
     const [loader, setLoader] = useState(false)
     const {setTicketModal, addTicket, categories, setCategoryModalOpen, categoryModalOpen} = useBoardStore();
     const {createATicket} = useTicket()
+    const workspaceId=router.query.id;
     const {
         register,
         handleSubmit,
         reset,
         setValue,
-        watch,
-        setError,
         formState: {errors,},
     } = useForm({
         resolver: yupResolver(schema),
     });
-    console.log(errors, 'error..')
 
     const onSubmit = (data: any) => {
         setLoader(true)
-        createATicket(data).then((res) => {
+        createATicket({...data,workspaceId: workspaceId}).then((res) => {
             addTicket({
                 id: res._id,
                 title: res.title,

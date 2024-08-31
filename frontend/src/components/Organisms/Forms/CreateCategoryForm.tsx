@@ -6,6 +6,7 @@ import {Button, Input, Typography} from "@/components/Atom";
 import useBoardStore from "@/store/useBoardStore.ts";
 import {FormControl} from "@/components/Molecules/Form";
 import {useCategory} from "@/hooks/useCategory.ts";
+import {useRouter} from "next/router";
 
 
 const schema = yup.object().shape({
@@ -20,6 +21,8 @@ interface CategoryCreateModalProps {
 }
 
 const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
+    const router=useRouter();
+    const workspaceId=router.query.id;
     const { setCategoryModalOpen, updateCategory} = useBoardStore();
     const [loader, setLoader] = useState(false)
     const {createACategory} = useCategory()
@@ -36,7 +39,7 @@ const CreateTicketForm: React.FC<CategoryCreateModalProps> = ({title}) => {
     const onSubmit = (data:FormType) => {
         const {title} = data || {};
         setLoader(true)
-        createACategory(title).then((response) => {
+        createACategory(title,workspaceId as string).then((response) => {
                 console.log(response)
                 const newCategory = {id: response._id as string, name: response.name as string}
                 updateCategory(newCategory)
