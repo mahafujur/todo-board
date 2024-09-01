@@ -54,7 +54,7 @@ const TodoBoard = () => {
 
     return (
         <PrivateLayout>
-            <div className={'flex w-full gap-x-3'}>
+            <div className={'flex w-full gap-x-2'}>
                 <WorkspaceSidebar/>
                 <Board/>
             </div>

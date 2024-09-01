@@ -45,7 +45,6 @@ const AddMemberForm: FC<Props> = ({workspaceId, onClose}) => {
             updateWorkspace(newWorkspace)
             onClose()
         }).catch((err) => {
-            console.log(err)
             const message = err?.response?.data?.message || '';
             setError('email', {message: message})
         }).finally(() => {

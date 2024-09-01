@@ -18,7 +18,7 @@ const WorkspaceSidebar = () => {
         if (!memberModal) setMemberModal(true)
     }
     return (
-        <div className={'mt-4 md:visible py-2 px-2 hidden md:w-[190px] md:flex flex-col rounded-md bg-white shadow'}>
+        <div className={' max-h-[81vh] overflow-y-auto mt-4 md:visible py-2 px-2 hidden md:w-[200px] md:flex flex-col rounded-md bg-white shadow'}>
             <Typography tag={'p'}
                         className={'text-center text-gray600'}
                         variant={{
@@ -64,7 +64,7 @@ const WorkspaceSidebar = () => {
                             className={'bg-white px-2 py-2  w-auto text-left '}>
                             {name}</div>
                         <div
-                            className={'bg-white px-2 pb-2 text-gray600 text-sm  w-auto text-left '}>
+                            className={'bg-white break-words px-2 pb-2 text-gray600 text-[10px]  w-auto text-left '}>
                             {email}</div>
                     </div>
                 }) : ''}

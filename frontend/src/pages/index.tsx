@@ -82,7 +82,7 @@ const Home: React.FC = () => {
         setLoader(false)
     }, []);
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
             <SEO
                 title="Home | Your Todo App"
                 description="Welcome to Your Todo App. Organize your tasks efficiently."
@@ -100,6 +100,14 @@ const Home: React.FC = () => {
 
                 {!loader && <Workspaces/>}
             </main>
+
+            <footer  className={'py-1 bottom-0  fixed mb-2 '}>
+                <div className={'text-primary300 hover:underline '}>
+                    <span className={'text-pink-500'}>Github: </span> <a href={'https://github.com/mahafujur/todo-board'}>https://github.com/mahafujur/todo-board </a>
+                </div>
+            </footer>
+
+
         </div>
     );
 };
