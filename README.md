@@ -12,7 +12,13 @@ The To-Do Board Solution is a web application designed to manage tasks effective
 - **Categories**: Create and manage categories to organize tasks.
 - **Tickets Management**: Create, assign, and manage tickets with properties including Title, Description, and Expiry Date.
 - **Drag-and-Drop Interface**: Implemented using the HTML Drag and Drop API to allow users to move tickets between categories.
--
+
+## Bonus Feature:
+- Homepage
+- Workspace 
+- Added members to any workspace feature
+- Install from a theme from backend theme store
+
 ## Tech Stack
 
 - **Backend**: Express.js and Node.js and Mongodb
@@ -88,7 +94,7 @@ The To-Do Board Solution is a web application designed to manage tasks effective
 
 ## Authentication
 
-- **Frontend**: Utilizes JWT for managing user sessions.Token will be set by backend.
+- **Frontend**: Utilizes JWT for managing user sessions.
 - **Backend**: Implements JWT-based authentication with token validation.
 
 ## Drag-and-Drop Implementation
@@ -102,11 +108,3 @@ The To-Do Board Solution is a web application designed to manage tasks effective
 - Did not use many third party libraries
 - Followed hook based structure for api call and moved the business logics to custom hooks.
 
-## Project is not fully completed,remaining part:
-
-- **Update History Tracking**: Add functionality to track and display update history for tickets.
-- **Card Update History**: Show a history of card updates with timestamps. Example output could be:
-
-    - **Card 1**: Moved to "In Progress" on Jan 25, 2022, at 16:04
-    - **Card 2**: Moved to "Done" on Feb 2, 2022, at 11:04
-    - **Card 1**: Moved to "For Review" on Feb 1, 2022, at 10:04

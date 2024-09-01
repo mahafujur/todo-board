@@ -1,40 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# To-Do Board Solution
+@ Mahafujur Rahaman
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The To-Do Board Solution is a web application designed to manage tasks effectively. It features a modern drag-and-drop interface, custom components, and robust functionality for handling tasks and categories.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend
 
-You can start editing the page by modifying `pages/index.ts`. The page auto-updates as you edit the file.
+1. **Install Dependencies**:
+   ```bash
+   cd frontend
+   yarn install
+   ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+2. **Environment Variables**:
+   Create a `.env.local` file in the `frontend` folder with the following variables:
+   ```
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+3. **Start the Development Server**:
+   ```bash
+   yarn dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Folder Structure
 
-## Learn More
+- **Backend**:
+    - `src/`: Contains source code for the backend.
+    - `config/`: Api documentation and logger.
+    - `middleware/`: Authentication and other middleware.
+    - `models/`: Database models.
+    - `routes/`: API endpoints.
+    - `types/`: Types.
+    - `utils/`: Helper functions.
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**:
+    - `src/`: Contains Nextjs pages structure.
+    - `pages/`: Next.js pages.
+    - `components/`: Custom components following Atomic Design principles.
+    - `hooks/`: Custom React hooks.
+    - `utils/`: Utility functions and constants.
+    - `lib/`: External library (like:handle API requests).
+    - `store/`: Store keeper for state management( for this project i used zustand)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Authentication
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Frontend**: Utilizes JWT for managing user sessions.
+- 
+## Drag-and-Drop Implementation
 
-## Deploy on Vercel
+- **Drag-and-Drop**: Uses the native HTML Drag and Drop API to handle ticket movement without relying on external libraries.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
