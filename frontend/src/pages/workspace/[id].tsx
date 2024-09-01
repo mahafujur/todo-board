@@ -6,6 +6,7 @@ import {useTicket} from "@/hooks/useTicket.ts";
 import Board from "@/components/Templates/Board.tsx";
 import {useRouter} from "next/router";
 import {Loader} from "@/components/Atom";
+import WorkspaceSidebar from "@/components/Templates/WorkspaceSidebar.tsx";
 
 const TodoBoard = () => {
     const router = useRouter();
@@ -13,7 +14,7 @@ const TodoBoard = () => {
     const {getAllTickets} = useTicket()
     const {setCategories, categories, setTickets, tickets} = useBoardStore()
     const workspaceId = router.query.id;
-    const [loader,setLoader]=useState(true)
+    const [loader, setLoader] = useState(true)
     useEffect(() => {
         if (workspaceId) {
             // Run both API calls in parallel using Promise.all
@@ -21,7 +22,7 @@ const TodoBoard = () => {
                 getAllCategories(workspaceId as string)
                     .then((res) => {
                         const response: any = res;
-                        const categories = response?.map((data: any) => ({ name: data.name, id: data._id }));
+                        const categories = response?.map((data: any) => ({name: data.name, id: data._id}));
                         setCategories(categories || []);
                     })
                     .catch((error) => console.log(error?.response?.status)),
@@ -47,13 +48,17 @@ const TodoBoard = () => {
     }, [workspaceId]);
 
 
-    if(loader){
-        return  <Loader/>
+    if (loader) {
+        return <Loader/>
     }
 
     return (
         <PrivateLayout>
-            <Board/>
+            <div className={'flex w-full gap-x-3'}>
+                <WorkspaceSidebar/>
+                <Board/>
+            </div>
+
         </PrivateLayout>
     )
 }

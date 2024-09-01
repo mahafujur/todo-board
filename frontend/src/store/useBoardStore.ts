@@ -19,6 +19,7 @@ interface BoardStore {
     workspaces: IWorkspace[],
     setWorkspaces: (workspaces: IWorkspace []) => void;
     updateTicket:(ticketId:string,ticket:Ticket)=>void;
+    updateWorkspace: (newWorkspace: IWorkspace) => void;
 }
 
 const useBoardStore = create<BoardStore>((set) => ({
@@ -82,6 +83,26 @@ const useBoardStore = create<BoardStore>((set) => ({
     workspaces: [],
     setWorkspaces: (workspaces) =>
         set({workspaces: workspaces}),
+    updateWorkspace: (newWorkspace) => // Implementation of the updateWorkspace method
+        set((state) => {
+            const workspaceIndex = state.workspaces.findIndex(
+                (workspace) => workspace.id === newWorkspace.id
+            );
+
+            if (workspaceIndex !== -1) {
+                const updatedWorkspaces = [...state.workspaces];
+                updatedWorkspaces[workspaceIndex] = newWorkspace;
+
+                return {
+                    workspaces: updatedWorkspaces,
+                };
+            }
+
+            // If the workspace does not exist, add the new workspace
+            return {
+                workspaces: [...state.workspaces, newWorkspace],
+            };
+        }),
 
 }));
 export default useBoardStore;

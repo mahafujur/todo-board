@@ -5,6 +5,7 @@ import Workspace from '../../models/workspace';
 import {body} from 'express-validator';
 import {validateRequest} from '../../utils/api-utils/validateRequest';
 import mongoose from 'mongoose';
+import {User} from "../../models/user";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.post(
         validateRequest,
     ],
     async (req: Request, res: Response) => {
-        const { name } = req.body;
+        const {name} = req.body;
         try {
             // Create a new workspace with the user's ID
             const workspace = new Workspace({
@@ -55,26 +56,35 @@ router.get('/', auth, async (req: Request, res: Response) => {
     }
 });
 
-// Add a user to a workspace
 router.put('/add-user/:workspaceId', auth, async (req: Request, res: Response) => {
     const {workspaceId} = req.params;
-    const {userId} = req.body;
-
-    if (!mongoose.Types.ObjectId.isValid(workspaceId) || !mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({message: 'Invalid workspace or user ID'});
+    const {email} = req.body;
+    // Check if workspaceId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(workspaceId)) {
+        return res.status(400).json({message: 'Invalid workspace ID'});
     }
 
     try {
-        const workspace = await Workspace.findById(workspaceId);
+        // Find the user by email
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
 
+        const userId = user._id;
+
+        // Find the workspace by ID
+        const workspace = await Workspace.findById(workspaceId);
         if (!workspace) {
             return res.status(404).json({message: 'Workspace not found'});
         }
 
+        // Check if the user is already in the workspace
         if (workspace.users.includes(userId)) {
             return res.status(400).json({message: 'User already in workspace'});
         }
 
+        // Add the user to the workspace
         workspace.users.push(userId);
         await workspace.save();
 
@@ -86,6 +96,7 @@ router.put('/add-user/:workspaceId', auth, async (req: Request, res: Response) =
         res.status(500).send('Server error');
     }
 });
+
 
 // Remove a user from a workspace
 router.put('/remove-user/:workspaceId', auth, async (req: Request, res: Response) => {
