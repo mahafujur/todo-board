@@ -17,7 +17,7 @@ const themes = [
         name: 'BB',
         title: 'Blank Board',
         categories: ['Todo'],
-        tickets: [],
+        tickets: ['Have a coffee'],
     },
     {
         themeId: 'theme1',
@@ -55,39 +55,44 @@ router.post(
         validateRequest,
     ],
     async (req: Request, res: Response) => {
-        const {themeId, workspaceId} = req.body;
+        const { themeId, workspaceId } = req.body;
 
         // Validate workspaceId
         if (!mongoose.Types.ObjectId.isValid(workspaceId)) {
-            return res.status(400).json({message: 'Invalid workspace ID'});
+            return res.status(400).json({ message: 'Invalid workspace ID' });
         }
 
         try {
             // Check if the workspace exists
             const workspace = await Workspace.findById(workspaceId);
             if (!workspace) {
-                return res.status(404).json({message: 'Workspace not found'});
+                return res.status(404).json({ message: 'Workspace not found' });
             }
 
             // Find the theme from the hardcoded list
             const themeData = themes.find(theme => theme.themeId === themeId);
             if (!themeData) {
-                return res.status(400).json({message: 'Invalid theme ID provided'});
+                return res.status(400).json({ message: 'Invalid theme ID provided' });
             }
 
-            // Create categories and tickets based on the theme
             const categoryIds = [];
             for (const categoryName of themeData.categories) {
-                const category = new Category({
-                    name: categoryName,
-                    user: req.user!.id,
-                    workspace: workspaceId
-                });
-                await category.save();
+                // Check if the category already exists in the workspace
+                let category = await Category.findOne({ name: categoryName, workspace: workspaceId });
+
+                if (!category) {
+                    // If not found, create a new category
+                    category = new Category({
+                        name: categoryName,
+                        user: req.user!.id,
+                        workspace: workspaceId
+                    });
+                    await category.save();
+                }
+
                 categoryIds.push(category._id);
 
-
-                if (themeData?.tickets?.length>0) {
+                if (themeData?.tickets?.length > 0) {
                     // Create sample tickets for each category
                     for (const ticketTitle of themeData.tickets) {
                         const ticket = new Ticket({
@@ -96,19 +101,20 @@ router.post(
                             user: req.user!.id,
                             category: category._id,
                             workspace: workspaceId,
-                            expiryDate: new Date(),  // Example expiry date
+                            expiryDate: new Date(), // Example expiry date
                         });
                         await ticket.save();
                     }
                 }
             }
 
-            res.status(201).json({message: 'Theme applied successfully'});
+            res.status(201).json({ message: 'Theme applied successfully' });
         } catch (err) {
             console.error('Error applying theme:', err instanceof Error ? err.message : 'Unexpected error');
             res.status(500).send('Server error');
         }
     }
 );
+
 
 export {router as themeRouter};
