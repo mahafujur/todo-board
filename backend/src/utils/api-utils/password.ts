@@ -9,7 +9,7 @@ export class Password {
   static async compare(storedPassword: string, passwordToCompare: string): Promise<boolean> {
     // storedPassword is the hashed password from the database
     // passwordToCompare is the plain text password provided by the user during signin
-    console.log(storedPassword, 'compare..',passwordToCompare);
+    // console.log(storedPassword, 'compare..',passwordToCompare);
     return await bcrypt.compare(passwordToCompare, storedPassword);
   }
 }
